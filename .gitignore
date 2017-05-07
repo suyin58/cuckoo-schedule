@@ -1,0 +1,11 @@
+/*.project
+/.settings
+/schedule-admin/.settings
+/schedule-admin/*.classpath
+/schedule-admin/*.project
+/schedule-core/.settings
+/schedule-core/*.project
+/schedule-core/*.classpath
+/schedule-executor-example/.settings
+/schedule-executor-example/*.project
+/schedule-executor-example/*.classpath

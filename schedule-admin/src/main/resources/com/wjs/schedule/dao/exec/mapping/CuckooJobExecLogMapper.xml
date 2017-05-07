@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wjs.schedule.dao.exec.CuckooJobExecLogMapper" >
+  <resultMap id="BaseResultMap" type="com.wjs.schedule.domain.exec.CuckooJobExecLog" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="job_id" property="jobId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="exec_job_type" property="execJobType" jdbcType="VARCHAR" />
+    <result column="job_class_application" property="jobClassApplication" jdbcType="VARCHAR" />
+    <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+    <result column="trigger_type" property="triggerType" jdbcType="VARCHAR" />
+    <result column="type_daily" property="typeDaily" jdbcType="VARCHAR" />
+    <result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
+    <result column="tx_date" property="txDate" jdbcType="INTEGER" />
+    <result column="flow_last_time" property="flowLastTime" jdbcType="DECIMAL" />
+    <result column="flow_cur_time" property="flowCurTime" jdbcType="DECIMAL" />
+    <result column="cuckoo_parallel_job_args" property="cuckooParallelJobArgs" jdbcType="VARCHAR" />
+    <result column="job_start_time" property="jobStartTime" jdbcType="DECIMAL" />
+    <result column="job_exec_time" property="jobExecTime" jdbcType="BIGINT" />
+    <result column="job_end_time" property="jobEndTime" jdbcType="DECIMAL" />
+    <result column="exec_job_status" property="execJobStatus" jdbcType="VARCHAR" />
+    <result column="cuckoo_client_ip" property="cuckooClientIp" jdbcType="VARCHAR" />
+    <result column="cuckoo_client_port" property="cuckooClientPort" jdbcType="INTEGER" />
+    <result column="latest_check_time" property="latestCheckTime" jdbcType="DECIMAL" />
+    <result column="need_triggle_next" property="needTriggleNext" jdbcType="BIT" />
+    <result column="force_triggle" property="forceTriggle" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    id, job_id, group_id, exec_job_type, job_class_application, job_name, trigger_type, 
+    type_daily, cron_expression, tx_date, flow_last_time, flow_cur_time, cuckoo_parallel_job_args, 
+    job_start_time, job_exec_time, job_end_time, exec_job_status, cuckoo_client_ip, cuckoo_client_port, 
+    latest_check_time, need_triggle_next, force_triggle, remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLogCriteria" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cuckoo_job_exec_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != 0 " >
+       limit ${start} , ${limit}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from cuckoo_job_exec_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="lockByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from cuckoo_job_exec_log
+    where id = #{id,jdbcType=BIGINT} for update 
+  </select>
+  <select id="lockByExample" resultMap="BaseResultMap" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLogCriteria" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    select
+    <include refid="Base_Column_List" />
+    from cuckoo_job_exec_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+     for update 
+  </select>
+  <select id="pageByExample" resultMap="BaseResultMap" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLogCriteria" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cuckoo_job_exec_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != 0 " >
+       limit ${start} , ${limit}
+    </if>
+  </select>
+  <select id="lastInsertId" resultType="java.lang.Long" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+      select case lastId when 0 then 'can not get last insert id' else lastId end as lastId from ( select  LAST_INSERT_ID() lastId ) s1  
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    delete from cuckoo_job_exec_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLogCriteria" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    delete from cuckoo_job_exec_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLog" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    insert into cuckoo_job_exec_log (id, job_id, group_id, 
+      exec_job_type, job_class_application, job_name, 
+      trigger_type, type_daily, cron_expression, 
+      tx_date, flow_last_time, flow_cur_time, 
+      cuckoo_parallel_job_args, job_start_time, job_exec_time, 
+      job_end_time, exec_job_status, cuckoo_client_ip, 
+      cuckoo_client_port, latest_check_time, need_triggle_next, 
+      force_triggle, remark)
+    values (#{id,jdbcType=BIGINT}, #{jobId,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, 
+      #{execJobType,jdbcType=VARCHAR}, #{jobClassApplication,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, 
+      #{triggerType,jdbcType=VARCHAR}, #{typeDaily,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR}, 
+      #{txDate,jdbcType=INTEGER}, #{flowLastTime,jdbcType=DECIMAL}, #{flowCurTime,jdbcType=DECIMAL}, 
+      #{cuckooParallelJobArgs,jdbcType=VARCHAR}, #{jobStartTime,jdbcType=DECIMAL}, #{jobExecTime,jdbcType=BIGINT}, 
+      #{jobEndTime,jdbcType=DECIMAL}, #{execJobStatus,jdbcType=VARCHAR}, #{cuckooClientIp,jdbcType=VARCHAR}, 
+      #{cuckooClientPort,jdbcType=INTEGER}, #{latestCheckTime,jdbcType=DECIMAL}, #{needTriggleNext,jdbcType=BIT}, 
+      #{forceTriggle,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLog" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    insert into cuckoo_job_exec_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="jobId != null" >
+        job_id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="execJobType != null" >
+        exec_job_type,
+      </if>
+      <if test="jobClassApplication != null" >
+        job_class_application,
+      </if>
+      <if test="jobName != null" >
+        job_name,
+      </if>
+      <if test="triggerType != null" >
+        trigger_type,
+      </if>
+      <if test="typeDaily != null" >
+        type_daily,
+      </if>
+      <if test="cronExpression != null" >
+        cron_expression,
+      </if>
+      <if test="txDate != null" >
+        tx_date,
+      </if>
+      <if test="flowLastTime != null" >
+        flow_last_time,
+      </if>
+      <if test="flowCurTime != null" >
+        flow_cur_time,
+      </if>
+      <if test="cuckooParallelJobArgs != null" >
+        cuckoo_parallel_job_args,
+      </if>
+      <if test="jobStartTime != null" >
+        job_start_time,
+      </if>
+      <if test="jobExecTime != null" >
+        job_exec_time,
+      </if>
+      <if test="jobEndTime != null" >
+        job_end_time,
+      </if>
+      <if test="execJobStatus != null" >
+        exec_job_status,
+      </if>
+      <if test="cuckooClientIp != null" >
+        cuckoo_client_ip,
+      </if>
+      <if test="cuckooClientPort != null" >
+        cuckoo_client_port,
+      </if>
+      <if test="latestCheckTime != null" >
+        latest_check_time,
+      </if>
+      <if test="needTriggleNext != null" >
+        need_triggle_next,
+      </if>
+      <if test="forceTriggle != null" >
+        force_triggle,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="jobId != null" >
+        #{jobId,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="execJobType != null" >
+        #{execJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClassApplication != null" >
+        #{jobClassApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerType != null" >
+        #{triggerType,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDaily != null" >
+        #{typeDaily,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null" >
+        #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="txDate != null" >
+        #{txDate,jdbcType=INTEGER},
+      </if>
+      <if test="flowLastTime != null" >
+        #{flowLastTime,jdbcType=DECIMAL},
+      </if>
+      <if test="flowCurTime != null" >
+        #{flowCurTime,jdbcType=DECIMAL},
+      </if>
+      <if test="cuckooParallelJobArgs != null" >
+        #{cuckooParallelJobArgs,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStartTime != null" >
+        #{jobStartTime,jdbcType=DECIMAL},
+      </if>
+      <if test="jobExecTime != null" >
+        #{jobExecTime,jdbcType=BIGINT},
+      </if>
+      <if test="jobEndTime != null" >
+        #{jobEndTime,jdbcType=DECIMAL},
+      </if>
+      <if test="execJobStatus != null" >
+        #{execJobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cuckooClientIp != null" >
+        #{cuckooClientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="cuckooClientPort != null" >
+        #{cuckooClientPort,jdbcType=INTEGER},
+      </if>
+      <if test="latestCheckTime != null" >
+        #{latestCheckTime,jdbcType=DECIMAL},
+      </if>
+      <if test="needTriggleNext != null" >
+        #{needTriggleNext,jdbcType=BIT},
+      </if>
+      <if test="forceTriggle != null" >
+        #{forceTriggle,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLogCriteria" resultType="java.lang.Integer" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    select count(*) from cuckoo_job_exec_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    update cuckoo_job_exec_log
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.jobId != null" >
+        job_id = #{record.jobId,jdbcType=BIGINT},
+      </if>
+      <if test="record.groupId != null" >
+        group_id = #{record.groupId,jdbcType=BIGINT},
+      </if>
+      <if test="record.execJobType != null" >
+        exec_job_type = #{record.execJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobClassApplication != null" >
+        job_class_application = #{record.jobClassApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobName != null" >
+        job_name = #{record.jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.triggerType != null" >
+        trigger_type = #{record.triggerType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeDaily != null" >
+        type_daily = #{record.typeDaily,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cronExpression != null" >
+        cron_expression = #{record.cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="record.txDate != null" >
+        tx_date = #{record.txDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowLastTime != null" >
+        flow_last_time = #{record.flowLastTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flowCurTime != null" >
+        flow_cur_time = #{record.flowCurTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cuckooParallelJobArgs != null" >
+        cuckoo_parallel_job_args = #{record.cuckooParallelJobArgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobStartTime != null" >
+        job_start_time = #{record.jobStartTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.jobExecTime != null" >
+        job_exec_time = #{record.jobExecTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.jobEndTime != null" >
+        job_end_time = #{record.jobEndTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.execJobStatus != null" >
+        exec_job_status = #{record.execJobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuckooClientIp != null" >
+        cuckoo_client_ip = #{record.cuckooClientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuckooClientPort != null" >
+        cuckoo_client_port = #{record.cuckooClientPort,jdbcType=INTEGER},
+      </if>
+      <if test="record.latestCheckTime != null" >
+        latest_check_time = #{record.latestCheckTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.needTriggleNext != null" >
+        need_triggle_next = #{record.needTriggleNext,jdbcType=BIT},
+      </if>
+      <if test="record.forceTriggle != null" >
+        force_triggle = #{record.forceTriggle,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    update cuckoo_job_exec_log
+    set id = #{record.id,jdbcType=BIGINT},
+      job_id = #{record.jobId,jdbcType=BIGINT},
+      group_id = #{record.groupId,jdbcType=BIGINT},
+      exec_job_type = #{record.execJobType,jdbcType=VARCHAR},
+      job_class_application = #{record.jobClassApplication,jdbcType=VARCHAR},
+      job_name = #{record.jobName,jdbcType=VARCHAR},
+      trigger_type = #{record.triggerType,jdbcType=VARCHAR},
+      type_daily = #{record.typeDaily,jdbcType=VARCHAR},
+      cron_expression = #{record.cronExpression,jdbcType=VARCHAR},
+      tx_date = #{record.txDate,jdbcType=INTEGER},
+      flow_last_time = #{record.flowLastTime,jdbcType=DECIMAL},
+      flow_cur_time = #{record.flowCurTime,jdbcType=DECIMAL},
+      cuckoo_parallel_job_args = #{record.cuckooParallelJobArgs,jdbcType=VARCHAR},
+      job_start_time = #{record.jobStartTime,jdbcType=DECIMAL},
+      job_exec_time = #{record.jobExecTime,jdbcType=BIGINT},
+      job_end_time = #{record.jobEndTime,jdbcType=DECIMAL},
+      exec_job_status = #{record.execJobStatus,jdbcType=VARCHAR},
+      cuckoo_client_ip = #{record.cuckooClientIp,jdbcType=VARCHAR},
+      cuckoo_client_port = #{record.cuckooClientPort,jdbcType=INTEGER},
+      latest_check_time = #{record.latestCheckTime,jdbcType=DECIMAL},
+      need_triggle_next = #{record.needTriggleNext,jdbcType=BIT},
+      force_triggle = #{record.forceTriggle,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLog" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    update cuckoo_job_exec_log
+    <set >
+      <if test="jobId != null" >
+        job_id = #{jobId,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="execJobType != null" >
+        exec_job_type = #{execJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClassApplication != null" >
+        job_class_application = #{jobClassApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerType != null" >
+        trigger_type = #{triggerType,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDaily != null" >
+        type_daily = #{typeDaily,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null" >
+        cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="txDate != null" >
+        tx_date = #{txDate,jdbcType=INTEGER},
+      </if>
+      <if test="flowLastTime != null" >
+        flow_last_time = #{flowLastTime,jdbcType=DECIMAL},
+      </if>
+      <if test="flowCurTime != null" >
+        flow_cur_time = #{flowCurTime,jdbcType=DECIMAL},
+      </if>
+      <if test="cuckooParallelJobArgs != null" >
+        cuckoo_parallel_job_args = #{cuckooParallelJobArgs,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStartTime != null" >
+        job_start_time = #{jobStartTime,jdbcType=DECIMAL},
+      </if>
+      <if test="jobExecTime != null" >
+        job_exec_time = #{jobExecTime,jdbcType=BIGINT},
+      </if>
+      <if test="jobEndTime != null" >
+        job_end_time = #{jobEndTime,jdbcType=DECIMAL},
+      </if>
+      <if test="execJobStatus != null" >
+        exec_job_status = #{execJobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cuckooClientIp != null" >
+        cuckoo_client_ip = #{cuckooClientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="cuckooClientPort != null" >
+        cuckoo_client_port = #{cuckooClientPort,jdbcType=INTEGER},
+      </if>
+      <if test="latestCheckTime != null" >
+        latest_check_time = #{latestCheckTime,jdbcType=DECIMAL},
+      </if>
+      <if test="needTriggleNext != null" >
+        need_triggle_next = #{needTriggleNext,jdbcType=BIT},
+      </if>
+      <if test="forceTriggle != null" >
+        force_triggle = #{forceTriggle,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wjs.schedule.domain.exec.CuckooJobExecLog" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    update cuckoo_job_exec_log
+    set job_id = #{jobId,jdbcType=BIGINT},
+      group_id = #{groupId,jdbcType=BIGINT},
+      exec_job_type = #{execJobType,jdbcType=VARCHAR},
+      job_class_application = #{jobClassApplication,jdbcType=VARCHAR},
+      job_name = #{jobName,jdbcType=VARCHAR},
+      trigger_type = #{triggerType,jdbcType=VARCHAR},
+      type_daily = #{typeDaily,jdbcType=VARCHAR},
+      cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      tx_date = #{txDate,jdbcType=INTEGER},
+      flow_last_time = #{flowLastTime,jdbcType=DECIMAL},
+      flow_cur_time = #{flowCurTime,jdbcType=DECIMAL},
+      cuckoo_parallel_job_args = #{cuckooParallelJobArgs,jdbcType=VARCHAR},
+      job_start_time = #{jobStartTime,jdbcType=DECIMAL},
+      job_exec_time = #{jobExecTime,jdbcType=BIGINT},
+      job_end_time = #{jobEndTime,jdbcType=DECIMAL},
+      exec_job_status = #{execJobStatus,jdbcType=VARCHAR},
+      cuckoo_client_ip = #{cuckooClientIp,jdbcType=VARCHAR},
+      cuckoo_client_port = #{cuckooClientPort,jdbcType=INTEGER},
+      latest_check_time = #{latestCheckTime,jdbcType=DECIMAL},
+      need_triggle_next = #{needTriggleNext,jdbcType=BIT},
+      force_triggle = #{forceTriggle,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

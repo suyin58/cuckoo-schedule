@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.wjs</groupId>
+		<artifactId>wjs-schedule</artifactId>
+		<version>${project.version}</version>
+	</parent>
+	<artifactId>schedule-executor-example</artifactId>
+	<packaging>war</packaging>
+
+	<properties>
+		<project.version>1.0.0-SNAPSHOT</project.version>
+		<spring.version>4.0.6.RELEASE</spring.version>
+	</properties>
+
+	<dependencies>
+	
+		
+		
+		<!-- schedule-core -->
+		<dependency>
+			<groupId>com.wjs</groupId>
+			<artifactId>schedule-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<!-- springframe start -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		
+		<!-- c3p0 -->
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+		<!-- mysql-connector -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.29</version>
+		</dependency>
+		
+	</dependencies>
+
+</project>

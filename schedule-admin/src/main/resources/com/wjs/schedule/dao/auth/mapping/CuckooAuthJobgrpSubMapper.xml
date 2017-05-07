@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wjs.schedule.dao.auth.CuckooAuthJobgrpSubMapper" >
+  <resultMap id="BaseResultMap" type="com.wjs.schedule.vo.auth.CuckooGroupAuthVo" >
+    <!--
+     WARNING -  该映射文件为自动生成, 请勿修改.
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_auth_type" property="userAuthType" jdbcType="VARCHAR" />
+    <result column="writable" property="writable" jdbcType="VARCHAR" />
+    <result column="readable" property="readable" jdbcType="VARCHAR" />
+    <result column="grantable" property="grantable" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <select id="pageByExample" resultMap="BaseResultMap" parameterType="com.wjs.schedule.qry.job.GroupAuthQry" >
+    select s2.id as id,s1.id as user_id,${groupId} as group_id,s1.user_name, s1.user_auth_type , s2.readable,s2.writable,s2.grantable from cuckoo_auth_user  s1
+	LEFT JOIN  (select id,group_id,user_id,writable,readable,grantable from cuckoo_auth_jobgrp   where group_id = ${groupId}) s2
+	on s1.id = s2.user_id
+	order by s2.grantable desc , s2.writable desc , s2.readable desc
+    <if test="limit != 0 " >
+       limit ${start} , ${limit}
+    </if>
+  </select>
+   
+</mapper>

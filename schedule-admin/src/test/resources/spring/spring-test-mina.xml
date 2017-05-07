@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/task 
+	http://www.springframework.org/schema/task/spring-task.xsd
+	http://code.alibabatech.com/schema/dubbo 
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd 
+	">
+
+
+	<bean id="ioAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor" 
+	init-method="bind" destroy-method="unbind">
+	  <property name="defaultLocalAddress" ref="defaultLocalAddress" />
+	  <property name="handler" ref="serverHandler" />
+	  <property name="filterChainBuilder" ref="filterChainBuilder" />
+	</bean>
+	<!-- 监听端口 8687-->
+	<bean id="defaultLocalAddress" class="java.net.InetSocketAddress">
+		<constructor-arg index="0" value="12345"></constructor-arg>
+	</bean>
+	
+	<!-- handler -->
+	<bean id="serverHandler" class="com.wjs.schedule.net.server.handle.CuckooServerHandler" />
+	
+	
+	
+	<!-- The filter chain. -->
+	<bean id="filterChainBuilder" class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+	  <property name="filters">
+	    <map>
+	      <entry key="logger" value-ref="loggingFilter"/>
+	      <entry key="codec" value-ref="codecFilter"/>
+	      <entry key="executors" value-ref="executorsFilter"/>
+	    </map>
+	  </property>
+	</bean>
+	
+	<!-- Mina自带日志过滤器 默认级别为debug -->
+	<bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter">
+	    <property name="messageReceivedLogLevel" ref="info"></property>
+	    <property name="exceptionCaughtLogLevel" ref="info"></property>
+    </bean>
+    <bean id="info" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">    
+        <property name="staticField" value="org.apache.mina.filter.logging.LogLevel.INFO" />    
+    </bean>
+	
+	<bean id="codecFilter" class="com.wjs.schedule.net.server.filter.CodecFilter"/>
+	
+	
+	
+    <!-- 多线程处理过滤器，为后面的操作开启多线程，一般放在编解码过滤器之后，开始业务逻辑处理 -->
+    <bean id="executorsFilter" class="org.apache.mina.filter.executor.ExecutorFilter"/>
+	
+	<bean id="registFilter" class="com.wjs.schedule.net.server.filter.RegistFilter"/>
+	
+
+</beans>
