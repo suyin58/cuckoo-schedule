@@ -115,7 +115,7 @@
 		<strong>Copyright &copy; 2015-${.now?string('yyyy')} &nbsp;
 			<a href="https://github.com/suyin58/wjs-schedule" target="_blank" >github</a>&nbsp;
 		</strong><!-- All rights reserved. -->
-		
+		<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=63c412c72a53a284440c0c1549302e4aab00255fc83f6cf442ca92d02d33654c"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Cuckoo-Schedule" title="Cuckoo-Schedule"></a>
 		<div class="pull-right hidden-xs">
 			<b>Version</b> 1.0
 		</div>

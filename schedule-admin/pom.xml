@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.wjs</groupId>
-		<artifactId>wjs-schedule</artifactId>
+		<artifactId>cuckoo-schedule</artifactId>
 		<version>${project.version}</version>
 	</parent>
 	<artifactId>schedule-admin</artifactId>

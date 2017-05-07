@@ -216,6 +216,10 @@ public class QuartzAutoJobExecutor extends QuartzJobBean {
 			if(!quartzManage.checkCronExists(String.valueOf(jobDetail.getId()))){
 				// CRON任务在Cuckoo中有，但是在quartz中没有
 				quartzManage.addCronJob(String.valueOf(jobDetail.getId()), jobDetail.getCronExpression(), CuckooJobStatus.fromName(jobDetail.getJobStatus()),  CuckooBooleanFlag.fromName(jobDetail.getTypeDaily()));
+				if(CuckooJobStatus.PAUSE.getValue().equals(jobDetail.getJobStatus())){
+					// 暂停状态
+					quartzManage.pauseCronJob(String.valueOf(jobDetail.getId()));
+				}
 			}
 		}
 		

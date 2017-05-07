@@ -153,3 +153,9 @@ INSERT INTO `cuckoo_job_detail` (`id`, `group_id`, `exec_job_type`, `job_class_a
 INSERT INTO `cuckoo_job_detail` (`id`, `group_id`, `exec_job_type`, `job_class_application`, `job_name`, `job_desc`, `trigger_type`, `type_daily`, `cron_expression`, `offset`, `job_status`, `cuckoo_parallel_job_args`) VALUES (39, 12, 'CUCKOO', 'member', 'testFlowDailySucced', '描述', 'JOB', 'YES', '', -1, 'RUNNING', '参数');
 INSERT INTO `cuckoo_job_detail` (`id`, `group_id`, `exec_job_type`, `job_class_application`, `job_name`, `job_desc`, `trigger_type`, `type_daily`, `cron_expression`, `offset`, `job_status`, `cuckoo_parallel_job_args`) VALUES (40, 12, 'CUCKOO', 'member', 'testFlowDailySucced', '描述', 'JOB', 'YES', '', -1, 'RUNNING', '参数');
 INSERT INTO `cuckoo_job_detail` (`id`, `group_id`, `exec_job_type`, `job_class_application`, `job_name`, `job_desc`, `trigger_type`, `type_daily`, `cron_expression`, `offset`, `job_status`, `cuckoo_parallel_job_args`) VALUES (41, 14, 'CUCKOO', 'member', 'testCronJobOverTime', '描述', 'CRON', 'NO', '0 0 0/3 * * ?', 0, 'RUNNING', '参数');
+
+
+
+INSERT INTO `cuckoo_auth_user` (`id`, `user_name`, `user_pwd`, `user_auth_type`, `phone`, `email`, `org_name`) VALUES (1, 'guest', 'e10adc3949ba59abbe56e057f20f883e', 'GUEST', '', '', '');
+INSERT INTO `cuckoo_auth_user` (`id`, `user_name`, `user_pwd`, `user_auth_type`, `phone`, `email`, `org_name`) VALUES (2, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'ADMIN', '', '', '');
+INSERT INTO `cuckoo_auth_user` (`id`, `user_name`, `user_pwd`, `user_auth_type`, `phone`, `email`, `org_name`) VALUES (3, 'test', 'e10adc3949ba59abbe56e057f20f883e', 'NORMAL', '', '', '');
