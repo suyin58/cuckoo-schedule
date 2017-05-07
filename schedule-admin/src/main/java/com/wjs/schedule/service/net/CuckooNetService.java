@@ -27,8 +27,9 @@ public interface CuckooNetService {
 	 * 查询可执行远程执行器列表 -- 考虑负载均衡 
 	 * @param jobId
 	 * @return
+	 * @throws JobCanNotRunningException 
 	 */
-	CuckooNetClientInfo getExecNetClientInfo(Long jobId);
+	CuckooNetClientInfo getExecNetClientInfo(Long jobId) throws JobCanNotRunningException;
 	
 	/**
 	 * 新增可执行远程执行器

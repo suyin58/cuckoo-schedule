@@ -103,7 +103,11 @@ public class CuckooNetServiceImpl implements CuckooNetService {
 	}
 
 	@Override
-	public CuckooNetClientInfo getExecNetClientInfo(Long jobId) {
+	public CuckooNetClientInfo getExecNetClientInfo(Long jobId) throws JobCanNotRunningException {
+		if(null == CuckooJobConstant.curServerId){
+			// 服务器未准备好（刚刚重启）
+			throw new JobCanNotRunningException("server is not ready");
+		}
 
 		// 查看任务详细信息
 		CuckooJobDetail jobInfo = cuckooJobService.getJobById(jobId);
