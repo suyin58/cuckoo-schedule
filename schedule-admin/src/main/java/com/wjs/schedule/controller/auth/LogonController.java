@@ -69,7 +69,7 @@ public class LogonController extends BaseController{
 			// cuckooAuthUser.setUserName(user.getUserName());
 			if(StringUtils.isNotEmpty(user.getUserPwd())){
 
-				cuckooAuthUser.setUserPwd(user.getUserPwd());
+				cuckooAuthUser.setUserPwd(PasswordUtil.encrypt(user.getUserPwd()));
 			}
 			cuckooAuthService.update(cuckooAuthUser);
 		}
