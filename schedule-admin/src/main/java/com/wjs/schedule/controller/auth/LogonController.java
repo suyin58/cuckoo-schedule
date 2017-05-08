@@ -47,6 +47,10 @@ public class LogonController extends BaseController{
 	@ResponseBody
 	public Object regist(HttpServletRequest request,CuckooAuthUserVo user){
 		
+		if(StringUtils.isEmpty(user.getUserPwd())){
+			throw new BaseException("password should not be null");
+		}
+		
 		if(null == user.getId()){
 			// 用户新增
 			// 用户名是否存在
