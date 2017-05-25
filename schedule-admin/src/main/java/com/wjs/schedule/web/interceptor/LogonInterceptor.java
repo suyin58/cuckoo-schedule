@@ -63,12 +63,16 @@ public class LogonInterceptor extends HandlerInterceptorAdapter {
 				// 未登录时记录上一次操作地址
 				String servletPath = request.getServletPath();
 				String queryString = request.getQueryString();
+//				System.out.println(request.getScheme());
+//				System.out.println(request.getServerName());
+//				System.out.println(request.getServerPort());
+//				System.out.println(request.getContextPath());
 				String redirectURL = servletPath;
 				if (StringUtils.isNotBlank(queryString)) {
 					redirectURL = request.getContextPath() + servletPath + "?" + StringUtils.trimToEmpty(queryString);
 				}
 				redirectURL = URLEncoder.encode(redirectURL, CuckooWebConstant.ADMIN_WEB_ENCODING);
-				String allUrl = CuckooAdminPages.LOGIN.getValue() + "?redirectURL=" + request.getContextPath() + redirectURL;
+				String allUrl = request.getContextPath() + CuckooAdminPages.LOGIN.getValue() + "?redirectURL="+ redirectURL;
 				// 转到登录页
 				response.sendRedirect(allUrl);
 			}
@@ -95,9 +99,9 @@ public class LogonInterceptor extends HandlerInterceptorAdapter {
 
 
 	private boolean isExcludeUrl(String ContextPath, String requestUri, String url) {
-		if (StringUtils.isNotEmpty(ContextPath) && requestUri.length() > ContextPath.length()) {
-			requestUri = requestUri.substring(ContextPath.length());
-		}
+//		if (StringUtils.isNotEmpty(ContextPath) && requestUri.length() > ContextPath.length()) {
+//			requestUri = requestUri.substring(ContextPath.length(), requestUri.length());
+//		}
 		if (requestUri.equals(url)) {
 			return true;
 		}

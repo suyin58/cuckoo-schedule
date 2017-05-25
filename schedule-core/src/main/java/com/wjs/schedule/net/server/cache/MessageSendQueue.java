@@ -1,7 +1,10 @@
 package com.wjs.schedule.net.server.cache;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +31,9 @@ public class MessageSendQueue {
 		return instance;
 	}
 
-	private volatile Queue<MessageInfo> queue = new ConcurrentLinkedQueue<MessageInfo>();
+	private volatile BlockingQueue<MessageInfo> queue = new LinkedBlockingQueue<MessageInfo>();
 
-	public Queue<MessageInfo> getQueue() {
+	public BlockingQueue<MessageInfo> getQueue() {
 		return queue;
 	}
 
@@ -40,23 +43,17 @@ public class MessageSendQueue {
 
 			@Override
 			public void run() {
+				BlockingQueue<MessageInfo> queue = MessageSendQueue.instance().getQueue();
 				while (true) {
 					try {
-						LOGGER.info("messagesendqueue size:{}",  MessageSendQueue.instance().getQueue().size());
-						if (0 == MessageSendQueue.instance().getQueue().size()) {
+						// ** poll 移除并返问队列头部的元素 如果队列为空，则返回null
+						final MessageInfo message = queue.poll(2, TimeUnit.SECONDS);
+						if (null == message) {
 							break;
 						}
-						LOGGER.info("messagesendqueue queue:{}",  MessageSendQueue.instance().getQueue());
-						for (int i = 0; i < MessageSendQueue.instance().getQueue().size(); i++) {
-							// ** poll 移除并返问队列头部的元素 如果队列为空，则返回null
-							final MessageInfo message = MessageSendQueue.instance().getQueue().poll();
-							if (null == message) {
-								break;
-							}
 
-							LOGGER.info("messagesendqueue resend:{}",  message);
-							ClientUtil.sendMessageInfo(message);
-						}
+						LOGGER.info("messagesendqueue resend:{}", message);
+						ClientUtil.sendMessageInfo(message);
 
 						Thread.sleep(30000);
 
