@@ -214,7 +214,8 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		PropertyUtil.copyProperties(targetJobDetail, jobInfo);
 
 		cuckooJobDetailMapper.updateByPrimaryKeySelective(targetJobDetail);
-		if (CuckooJobTriggerType.JOB.getValue().equals(orginJobDetail.getTriggerType())) {
+		if (CuckooJobTriggerType.JOB.getValue().equals(orginJobDetail.getTriggerType())
+				|| CuckooJobTriggerType.NONE.getValue().equals(orginJobDetail.getTriggerType())) {
 			// 原来任务类型为job触发 且新任务为Cron，那么需要新增quartz。否则不做处理
 			if (CuckooJobTriggerType.CRON.getValue().equals(targetJobDetail.getTriggerType())) {
 
@@ -233,7 +234,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 				// 且新任务为NORMAL，那么需要删除quartz
 				quartzManage.deleteCronJob(String.valueOf(orginJobDetail.getId()));
 			}
-		} else {
+		}else {
 			throw new BaseException("unknow job triggle type : " + jobInfo.getTriggerType());
 		}
 
@@ -553,6 +554,21 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 	}
 
 	@Override
+	public void triggerJob(Long jobId, Boolean needTriggleNext, boolean foreTriggle) {
+		CuckooJobDetail cuckooJobDetail = cuckooJobDetailMapper.selectByPrimaryKey(jobId);
+
+		if (null == cuckooJobDetail) {
+			throw new BaseException("can not get jobinfo by id:{}", jobId);
+		}
+		
+		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(cuckooJobDetail.getGroupId())){
+			throw new BaseException("no writable right");
+		}
+		CuckooJobExecLog jobLog = cuckooJobLogService.initJobLog(cuckooJobDetail, needTriggleNext, foreTriggle);
+		quartzManage.addSimpleJob(jobLog, 0L);
+		
+	}
+	@Override
 	public List<CuckooJobDetail> getJobsByGroupId(Long groupId) {
 
 		CuckooJobDetailCriteria crt = new CuckooJobDetailCriteria();
@@ -574,5 +590,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 
 		return quartzManage.checkCronExists(String.valueOf(jobDetail.getId()));
 	}
+
+	
 
 }

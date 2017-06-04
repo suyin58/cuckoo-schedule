@@ -129,6 +129,15 @@ public interface CuckooJobService {
 	public void triggerDailyJob(Long jobId, Boolean needTriggleNext, Integer txDate, boolean foreTriggle);
 
 
+
+	/**
+	 * 执行任务，无执行业务日期参数
+	 * @param id
+	 * @param needTriggleNext
+	 * @param b
+	 */
+	public void triggerJob(Long jobId, Boolean needTriggleNext, boolean foreTriggle);
+
 	/**
 	 * 根据GroupId查询出任务信息
 	 * @param groupId
@@ -142,6 +151,7 @@ public interface CuckooJobService {
 	 * @param jobDetail
 	 */
 	public boolean checkCronQuartzInit(CuckooJobDetail jobDetail);
+
 
 	
 	

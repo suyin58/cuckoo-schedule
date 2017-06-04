@@ -265,14 +265,17 @@
             			.日切偏移量
             			-->
 					
-						<label for="lastname" class="col-sm-2 control-label">日切任务<font color="red">*</font></label>
-						<div class="col-sm-4">
-							<select class="form-control" name="typeDaily" >
-								<option value="" ></option>
-		                		<#list jobIsTypeDailyNoNull as item>
-		                			<option value="${item.value}" >${item.description}</option>
-		                		</#list>
-			                </select>
+						
+						<div name="typeDailyDiv" class="hide">
+							<label for="lastname" class="col-sm-2 control-label">日切任务<font color="red">*</font></label>
+							<div class="col-sm-4">
+								<select class="form-control" name="typeDaily" >
+									<option value="" ></option>
+			                		<#list jobIsTypeDailyNoNull as item>
+			                			<option value="${item.value}" >${item.description}</option>
+			                		</#list>
+				                </select>
+							</div>
 						</div>
 						
 						<div name="offsetDiv" class="hide">

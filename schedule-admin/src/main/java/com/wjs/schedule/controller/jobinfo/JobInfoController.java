@@ -257,7 +257,7 @@ public class JobInfoController extends BaseController{
 
 			cuckooJobService.triggerDailyJob(id, needTriggleNext, txDate, false);
 		}else{
-			throw new BaseException("Unknow triggerType:{}", typeDaily);
+			cuckooJobService.triggerJob(id, needTriggleNext, false);
 		}
 		return success();
 	}

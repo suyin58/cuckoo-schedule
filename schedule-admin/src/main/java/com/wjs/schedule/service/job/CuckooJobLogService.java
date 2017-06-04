@@ -70,6 +70,14 @@ public interface CuckooJobLogService {
 	public CuckooJobExecLog initDailyJobLog(CuckooJobDetail cuckooJobDetail, Boolean needTriggleNext, Integer txDate, boolean foreTriggle);
 
 	/**
+	 * 控制台执行无业务日期任务，初始化日志
+	 * @param jobId
+	 * @param needTriggleNext
+	 * @param txDate
+	 * @return
+	 */
+	public CuckooJobExecLog initJobLog(CuckooJobDetail cuckooJobDetail, Boolean needTriggleNext, boolean foreTriggle);
+	/**
 	 * 任务执行日志分页查询
 	 * @param qry
 	 * @return
@@ -126,4 +134,6 @@ public interface CuckooJobLogService {
 	 * @return
 	 */
 	public List<CuckooJobExecLog> getNextJobs(CuckooJobExecLog cuckooJobExecLog);
+
+	
 }

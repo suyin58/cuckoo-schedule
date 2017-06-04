@@ -382,6 +382,8 @@ $(function() {
 	$("#editModal .form select[name='triggerType']").change(function(){
 		var triggerType = $("#editModal .form select[name='triggerType']").val();
 		if("CRON" == triggerType){
+
+			$("#editModal .form div[name='typeDailyDiv']").removeClass("hide");
 			$("#editModal .form div[name='cronDiv']").removeClass("hide");
 			$("#editModal .form div[name='triggerJobDiv']").addClass("hide");
 			// 判断是否为日切任务处理
@@ -393,13 +395,22 @@ $(function() {
 				$("#editModal .form div[name='offsetDiv']").removeClass("hide");
 			}
 		}else if("JOB" == triggerType){
+
+			$("#editModal .form div[name='typeDailyDiv']").removeClass("hide");
 //			,triggerJobDiv
 			$("#editModal .form div[name='cronDiv']").addClass("hide");
-			$("#editModal .form div[name='triggerJobDiv']").removeClass("hide");
+			$("#editModal .form div[name='triggerJobDiv']").addClass("hide");
 			// 非日切任务处理 -- 不需要配置offset
 			$("#editModal .form div[name='offsetDiv']").addClass("hide");
 			$("#editModal .form input[name='offset']").val("");
-		}else{
+		}else if("NONE" == triggerType){
+			$("#editModal .form div[name='typeDailyDiv']").addClass("hide");
+			$("#editModal .form div[name='cronDiv']").addClass("hide");
+			$("#editModal .form div[name='triggerJobDiv']").addClass("hide");
+			// 非日切任务处理 -- 不需要配置offset
+			$("#editModal .form div[name='offsetDiv']").addClass("hide");
+			$("#editModal .form input[name='offset']").val("");
+		}else{ 
 			alert("unknow trigger type!!!");
 		}
 	});
@@ -420,7 +431,8 @@ $(function() {
 				$("#editModal .form input[name='offset']").val("");
 			}
 		}else{
-			alert("unknow typeDaily!!!");
+			$("#editModal .form div[name='offsetDiv']").addClass("hide");
+			$("#editModal .form input[name='offset']").val("");
 		}
 	});
 	
@@ -583,9 +595,12 @@ $(function() {
 		if("YES" == $(this).parent('p').attr("typeDaily")){
 			$("#triggerModal .form div[name='dailyParam']").removeClass("hide");
 			$("#triggerModal .form div[name='cronParam']").addClass("hide");
-		}else{
+		}else if("NO" == $(this).parent('p').attr("typeDaily")){
 			$("#triggerModal .form div[name='dailyParam']").addClass("hide");
 			$("#triggerModal .form div[name='cronParam']").removeClass("hide");
+		}else{
+			$("#triggerModal .form div[name='dailyParam']").addClass("hide");
+			$("#triggerModal .form div[name='cronParam']").addClass("hide");
 		}
 		// base data
 		$("#triggerModal .form input[name='id']").val($(this).parent('p').attr("id"));

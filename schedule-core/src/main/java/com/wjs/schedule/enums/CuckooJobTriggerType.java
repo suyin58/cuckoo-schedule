@@ -8,7 +8,8 @@ public enum CuckooJobTriggerType {
 
 	NULL("", "全部/无"),
 	CRON("CRON", "Cron定时触发")/*任务由Cron触发*/, 
-	JOB("JOB", "上级任务触发")/*任务由父任务触发*/; 
+	JOB("JOB", "上级任务触发")/*任务由父任务触发*/,
+	NONE("NONE", "外部调用触发")/*任务由外部调用触发*/; 
 	
 	private final String value;
 	

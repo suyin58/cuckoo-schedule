@@ -213,6 +213,32 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 		
 		return cuckooJobExecLog;
 	}
+	
+	@Override
+	public CuckooJobExecLog initJobLog(CuckooJobDetail cuckooJobDetail, Boolean needTriggleNext, boolean foreTriggle) {
+
+		
+		CuckooJobExecLog cuckooJobExecLog = new CuckooJobExecLog();
+		Long curTime =  System.currentTimeMillis();
+		
+		// 写入初始化任务执行信息
+		PropertyUtil.copyProperties(cuckooJobExecLog, cuckooJobDetail);
+		cuckooJobExecLog.setId(null);
+		cuckooJobExecLog.setJobId(cuckooJobDetail.getId());
+		cuckooJobExecLog.setJobStartTime(curTime);
+		cuckooJobExecLog.setExecJobStatus(CuckooJobExecStatus.PENDING.getValue());
+		cuckooJobExecLog.setLatestCheckTime(curTime);
+		cuckooJobExecLog.setNeedTriggleNext(needTriggleNext);
+		cuckooJobExecLog.setForceTriggle(foreTriggle);
+		
+		cuckooJobExecLog.setFlowLastTime(null);
+		cuckooJobExecLog.setFlowCurTime(null);
+		
+		cuckooJobExecLogMapper.insertSelective(cuckooJobExecLog);
+		cuckooJobExecLog.setId(cuckooJobExecLogMapper.lastInsertId());
+		
+		return cuckooJobExecLog;
+	}
 
 	@Override
 	public CuckooJobExecLog initDailyJobLog(CuckooJobDetail cuckooJobDetail, Boolean needTriggleNext, Integer txDate, boolean foreTriggle) {
@@ -416,6 +442,9 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 					return false;
 				}
 			}
+		}else{
+			// 无业务日期参数，什么都不校验
+			return true;
 		}
 		
 		LOGGER.info("unknown pending result,  curlogId:{}", jobLog.getId() );
@@ -557,6 +586,8 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 		}
 		return result;
 	}
+
+	
 
 
 }

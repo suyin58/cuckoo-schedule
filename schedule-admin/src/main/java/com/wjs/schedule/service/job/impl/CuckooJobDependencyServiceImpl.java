@@ -89,7 +89,7 @@ public class CuckooJobDependencyServiceImpl implements CuckooJobDependencyServic
 					.andFlowLastTimeEqualTo(jobLog.getFlowLastTime());
 			readyDepJobs = cuckooJobExecLogMapper.selectByExample(depJobCrt);
 
-		} else {
+		} else if(CuckooBooleanFlag.YES.getValue().equals(jobLog.getTypeDaily())){
 
 			// 2.日切任务的txdate需要一致
 			CuckooJobExecLogCriteria depLogTxdateCrt = new CuckooJobExecLogCriteria();
@@ -101,6 +101,9 @@ public class CuckooJobDependencyServiceImpl implements CuckooJobDependencyServic
 					.andTxDateEqualTo(jobLog.getTxDate());
 			readyDepJobs = cuckooJobExecLogMapper.selectByExample(depLogTxdateCrt);
 
+		}else{
+			// 无业务日期参数，什么都不校验
+			return true;
 		}
 		
 		Set<Long> readydepJobs = new HashSet<>();
