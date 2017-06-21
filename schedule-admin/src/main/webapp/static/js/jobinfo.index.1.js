@@ -397,9 +397,10 @@ $(function() {
 		}else if("JOB" == triggerType){
 
 			$("#editModal .form div[name='typeDailyDiv']").removeClass("hide");
+
+			$("#editModal .form div[name='triggerJobDiv']").removeClass("hide");
 //			,triggerJobDiv
 			$("#editModal .form div[name='cronDiv']").addClass("hide");
-			$("#editModal .form div[name='triggerJobDiv']").addClass("hide");
 			// 非日切任务处理 -- 不需要配置offset
 			$("#editModal .form div[name='offsetDiv']").addClass("hide");
 			$("#editModal .form input[name='offset']").val("");

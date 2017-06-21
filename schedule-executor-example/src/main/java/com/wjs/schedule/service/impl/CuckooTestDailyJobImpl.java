@@ -16,7 +16,8 @@ public class CuckooTestDailyJobImpl implements CuckooTestDailyJob {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CuckooTestDailyJobImpl.class);
 
-	int time = 60*60*1 * 1000;
+//	int time = 60*60*1 * 1000;
+	int time = 10 * 1000;
 	@Override
 	@CuckooTask("testCronDailySucced")
 	public void testCronDailySucced(JobInfoBean jobInfo) {
