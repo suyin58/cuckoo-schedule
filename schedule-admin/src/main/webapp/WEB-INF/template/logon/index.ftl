@@ -38,9 +38,11 @@
 				</div>
 			</div>
 		</form>
+		<!--
 		<div class="form-group">
 			<button id="registBtn" class="btn btn-primary btn-block btn-flat">免费注册</button>
 		</div>
+		-->
 	</div>
 	
 	<!-- 新增.模态框 -->

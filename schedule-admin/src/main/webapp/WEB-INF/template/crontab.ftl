@@ -7,9 +7,9 @@
 	<!-- DataTables -->
   	<link rel="stylesheet" href="${request.contextPath}/static/adminlte/plugins/datatables/dataTables.bootstrap.css">
 
-	<link href="/static/cron/themes/bootstrap/easyui.min.css" rel="stylesheet" type="text/css" />
-    <link href="/static/cron/themes/icon.css" rel="stylesheet" type="text/css" />
-    <link href="/static/cron/icon.css" rel="stylesheet" type="text/css" />
+	<link href="${request.contextPath}/static/cron/themes/bootstrap/easyui.min.css" rel="stylesheet" type="text/css" />
+    <link href="${request.contextPath}/static/cron/themes/icon.css" rel="stylesheet" type="text/css" />
+    <link href="${request.contextPath}/static/cron/icon.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .line
         {
@@ -737,9 +737,9 @@
 	<@netCommon.commonFooter />
 </div>
 
-    <script src="/static/cron/jquery-1.6.2.min.js" type="text/javascript"></script>
-    <script src="/static/cron/jquery.easyui.min.js" type="text/javascript"></script>
-    <script src="/static/cron/crontab.js" type="text/javascript"></script> 
+    <script src="${request.contextPath}/static/cron/jquery-1.6.2.min.js" type="text/javascript"></script>
+    <script src="${request.contextPath}/static/cron/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="${request.contextPath}/static/cron/crontab.js" type="text/javascript"></script> 
 
 </body>
 </html>

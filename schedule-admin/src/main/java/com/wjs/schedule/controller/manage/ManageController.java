@@ -39,10 +39,11 @@ public class ManageController extends BaseController{
 	public String index(HttpServletRequest request) {
 
 		
+
+
+		request.setAttribute("userTypes", CuckooUserAuthType.values());
 		if(cuckooAuthService.getLogonInfo().getCuckooUserAuthType().getValue().equals(CuckooUserAuthType.ADMIN.getValue())){
 			// 管理员跳转管理页面
-
-			request.setAttribute("userTypes", CuckooUserAuthType.values());
 			return "manage/manage.index";
 		}else{
 			// 跳转个人页面

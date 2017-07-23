@@ -59,7 +59,7 @@ $(function(){
 	});
 	
 	
-	// 搜索按钮
+	// 注册按钮
 	$('#registBtn').on('click', function(){
 		$('#registModal').modal({backdrop: false, keyboard: false}).modal('show');
 	});
