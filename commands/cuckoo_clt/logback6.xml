@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- stdout appender定义 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    
+        <File>${HOME}/logs/jobexec6/stdout.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${HOME}/logs/jobexec6/stdout.log.%d</fileNamePattern>
+            <maxHistory>90</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %-5level [%thread][%X{contextUuid}][%X{hostName}][%X{userId}][%X{requestTime}] %logger{68} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="DEBUGOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %-5level [%thread][%X{contextUuid}][%X{hostName}][%X{userId}][%X{requestTime}] %logger{68} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 日志文件 appender定义 -->
+    <appender name="lbcAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <File>${HOME}/logs/jobexec6/app.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${HOME}/logs/jobexec6/app.log.%d</fileNamePattern>
+            <maxHistory>90</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %-5level [%thread][%X{contextUuid}][%X{hostName}][%X{userId}][%X{requestTime}] %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- sql 日志 appender定义 -->
+    <appender name="sqlAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${HOME}/logs/jobexec6/sql.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${HOME}/logs/jobexec6/sql.log.%d
+            </fileNamePattern>
+            <maxHistory>90</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %-5level [%thread][%X{contextUuid}][%X{hostName}][%X{userId}][%X{requestTime}] %logger{68} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- service日志 -->
+    <appender name="serviceAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${HOME}/logs/jobexec6/service.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${HOME}/logs/jobexec6/service.log.%d
+            </fileNamePattern>
+            <maxHistory>90</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %-5level [%thread][%X{contextUuid}][%X{hostName}][%X{userId}][%X{requestTime}] %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- request日志 -->
+    <appender name="requestAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${HOME}/logs/jobexec6/request.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${HOME}/logs/jobexec6/request.log.%d
+            </fileNamePattern>
+            <maxHistory>90</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %-5level [%thread][%X{contextUuid}][%X{hostName}][%X{userId}][%X{requestTime}] %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<!-- error日志 -->
+    <appender name="lbcErrorAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+        <File>${HOME}/logs/jobexec6/error.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${HOME}/logs/jobexec6/error.log.%d
+            </FileNamePattern>
+            <maxHistory>90</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>%d %-5level [%thread][%X{contextUuid}][%X{hostName}][%X{userId}][%X{requestTime}] %logger{68} %line - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="com.wjs" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="lbcAppender" />
+        <appender-ref ref="lbcErrorAppender" />
+    </logger>
+
+    <logger name="com.wjs.util.dao.LbcMybatisInterceptor" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="sqlAppender" />
+    </logger>
+  
+    
+    <!-- Dubbo 服务调用日志拦截
+    <logger name="com.wjs.common.filter.DubboInvokeFilter" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="serviceAppender" />
+        <appender-ref ref="lbcErrorAppender" />
+    </logger>
+     --> 
+    
+    <!-- 网站访问日志
+    <logger name="com.wjs.jobexec.web.interceptor.CommonInterceptor" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="requestAppender" />
+    </logger>
+ 	-->
+    <root level="DEBUG">
+        <appender-ref ref="lbcAppender" />
+    </root>
+</configuration>
+
