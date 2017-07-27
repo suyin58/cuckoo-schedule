@@ -1,20 +1,20 @@
 CREATE TABLE cuckoo_client_job_detail
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT '×÷ÒµÖ´ĞĞÓ¦ÓÃÃû',
-	cuckoo_client_ip               varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'Ö´ĞĞÆ÷IP',
-	cuckoo_client_tag              varchar(128)    DEFAULT ''         NOT NULL	COMMENT '¿Í»§¶Ë±êÊ¶',
-	cuckoo_client_status           varchar(10)     DEFAULT ''         NOT NULL	COMMENT '¿Í»§¶Ë×´Ì¬',
-	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñÃû³Æ',
-	bean_name                      varchar(256)    DEFAULT ''         NOT NULL	COMMENT 'ÊµÏÖÀàÃû³Æ',
-	method_name                    varchar(100)    DEFAULT ''         NOT NULL	COMMENT '·½·¨Ãû³Æ',
-	create_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT '´´½¨Ê±¼ä',
-	modify_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'ĞŞ¸ÄÊ±¼ä',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT 'ä½œä¸šæ‰§è¡Œåº”ç”¨å',
+	cuckoo_client_ip               varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'æ‰§è¡Œå™¨IP',
+	cuckoo_client_tag              varchar(128)    DEFAULT ''         NOT NULL	COMMENT 'å®¢æˆ·ç«¯æ ‡è¯†',
+	cuckoo_client_status           varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'å®¢æˆ·ç«¯çŠ¶æ€',
+	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡åç§°',
+	bean_name                      varchar(256)    DEFAULT ''         NOT NULL	COMMENT 'å®ç°ç±»åç§°',
+	method_name                    varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'æ–¹æ³•åç§°',
+	create_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'åˆ›å»ºæ—¶é—´',
+	modify_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'ä¿®æ”¹æ—¶é—´',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='¿Í»§¶ËÈÎÎñ×¢²á±í'
+COMMENT='å®¢æˆ·ç«¯ä»»åŠ¡æ³¨å†Œè¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE UNIQUE INDEX uk_clientjob ON cuckoo_client_job_detail(job_class_application ASC ,cuckoo_client_tag ASC ,job_name ASC );
@@ -26,14 +26,14 @@ CREATE INDEX idx_clientjob_jobname ON cuckoo_client_job_detail(job_name ASC );
 
 CREATE TABLE cuckoo_job_dependency
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñID',
-	dependency_job_id              bigint          DEFAULT 0          NOT NULL	COMMENT 'ÒÀÀµÈÎÎñID',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡ID',
+	dependency_job_id              bigint          DEFAULT 0          NOT NULL	COMMENT 'ä¾èµ–ä»»åŠ¡ID',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÉÏ¼¶ÈÎÎñÒÀÀµ±í'
+COMMENT='ä¸Šçº§ä»»åŠ¡ä¾èµ–è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE INDEX idx_jobdependency_jobid ON cuckoo_job_dependency(job_id ASC );
@@ -43,23 +43,23 @@ CREATE INDEX idx_jobdependency_depid ON cuckoo_job_dependency(dependency_job_id 
 
 CREATE TABLE cuckoo_job_detail
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	group_id                       bigint          DEFAULT 0          NOT NULL	COMMENT '·Ö×éID',
-	exec_job_type                  varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñÀàĞÍ',
-	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT '×÷ÒµÖ´ĞĞÓ¦ÓÃÃû',
-	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñÃû³Æ',
-	job_desc                       varchar(500)    DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñÃèÊö',
-	trigger_type                   varchar(10)     DEFAULT ''         NOT NULL	COMMENT '´¥·¢ÀàĞÍ',
-	type_daily                     varchar(6)      DEFAULT ''         NOT NULL	COMMENT 'ÊÇ·ñÎªÈÕÇĞÈÎÎñ',
-	cron_expression                varchar(20)     DEFAULT ''         NOT NULL	COMMENT 'cronÈÎÎñ±í´ïÊ½',
-	offset                         int             DEFAULT 0          NOT NULL	COMMENT 'Æ«ÒÆÁ¿',
-	job_status                     varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñ×´Ì¬',
-	cuckoo_parallel_job_args       varchar(256)    DEFAULT ''         NOT NULL	COMMENT '²¢·¢/¼¯ÈºÈÎÎñ²ÎÊı',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	group_id                       bigint          DEFAULT 0          NOT NULL	COMMENT 'åˆ†ç»„ID',
+	exec_job_type                  varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡ç±»å‹',
+	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT 'ä½œä¸šæ‰§è¡Œåº”ç”¨å',
+	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡åç§°',
+	job_desc                       varchar(500)    DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡æè¿°',
+	trigger_type                   varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'è§¦å‘ç±»å‹',
+	type_daily                     varchar(6)      DEFAULT ''         NOT NULL	COMMENT 'æ˜¯å¦ä¸ºæ—¥åˆ‡ä»»åŠ¡',
+	cron_expression                varchar(20)     DEFAULT ''         NOT NULL	COMMENT 'cronä»»åŠ¡è¡¨è¾¾å¼',
+	offset                         int             DEFAULT 0          NOT NULL	COMMENT 'åç§»é‡',
+	job_status                     varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡çŠ¶æ€',
+	cuckoo_parallel_job_args       varchar(256)    DEFAULT ''         NOT NULL	COMMENT 'å¹¶å‘/é›†ç¾¤ä»»åŠ¡å‚æ•°',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÈÎÎñ±í'
+COMMENT='ä»»åŠ¡è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE INDEX idx_jobdetail_groupid ON cuckoo_job_detail(group_id ASC );
@@ -70,34 +70,34 @@ CREATE INDEX idx_jobdetail_name ON cuckoo_job_detail(job_name ASC );
 
 CREATE TABLE cuckoo_job_exec_log
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñID',
-	group_id                       bigint          DEFAULT 0          NOT NULL	COMMENT '·Ö×éID',
-	exec_job_type                  varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñÀàĞÍ',
-	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT '×÷ÒµÖ´ĞĞÓ¦ÓÃÃû',
-	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñÃû³Æ',
-	trigger_type                   varchar(10)     DEFAULT ''         NOT NULL	COMMENT '´¥·¢ÀàĞÍ',
-	type_daily                     varchar(6)      DEFAULT ''         NOT NULL	COMMENT 'ÊÇ·ñÎªÈÕÇĞÈÎÎñ',
-	cron_expression                varchar(20)     DEFAULT ''         NOT NULL	COMMENT 'cronÈÎÎñ±í´ïÊ½',
-	tx_date                        int             DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñÖ´ĞĞÒµÎñÈÕÆÚ',
-	flow_last_time                 bigint          DEFAULT 0          NOT NULL	COMMENT 'Á÷Ê½ÈÎÎñÉÏÒ»´ÎÊ±¼ä²ÎÊı',
-	flow_cur_time                  bigint          DEFAULT 0          NOT NULL	COMMENT 'Á÷Ê½ÈÎÎñµ±Ç°Ê±¼ä²ÎÊı',
-	cuckoo_parallel_job_args       varchar(256)    DEFAULT ''         NOT NULL	COMMENT '²¢·¢/¼¯ÈºÈÎÎñ²ÎÊı',
-	job_start_time                 bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñ¿ªÊ¼Ê±¼ä',
-	job_exec_time                  bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñÖ´ĞĞÊ±¼ä',
-	job_end_time                   bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñ½áÊøÊ±¼ä',
-	exec_job_status                varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'Ö´ĞĞ×´Ì¬',
-	cuckoo_client_ip               varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'Ö´ĞĞÆ÷IP',
-	cuckoo_client_port             int             DEFAULT 0          NOT NULL	COMMENT '¿Í»§¶Ëport',
-	latest_check_time              bigint          DEFAULT 0          NOT NULL	COMMENT '×î½ü¼ì²éÊ±¼ä',
-	need_triggle_next              boolean         DEFAULT 1          NOT NULL	COMMENT 'ÊÇ·ñ´¥·¢ÏÂ¼¶ÈÎÎñ',
-	force_triggle                  boolean         DEFAULT 1          NOT NULL	COMMENT 'ÊÇ·ñÇ¿ÖÆ´¥·¢',
-	remark                         varchar(500)    DEFAULT ''         NOT NULL	COMMENT '±¸×¢',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡ID',
+	group_id                       bigint          DEFAULT 0          NOT NULL	COMMENT 'åˆ†ç»„ID',
+	exec_job_type                  varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡ç±»å‹',
+	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT 'ä½œä¸šæ‰§è¡Œåº”ç”¨å',
+	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡åç§°',
+	trigger_type                   varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'è§¦å‘ç±»å‹',
+	type_daily                     varchar(6)      DEFAULT ''         NOT NULL	COMMENT 'æ˜¯å¦ä¸ºæ—¥åˆ‡ä»»åŠ¡',
+	cron_expression                varchar(20)     DEFAULT ''         NOT NULL	COMMENT 'cronä»»åŠ¡è¡¨è¾¾å¼',
+	tx_date                        int             DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡æ‰§è¡Œä¸šåŠ¡æ—¥æœŸ',
+	flow_last_time                 bigint          DEFAULT 0          NOT NULL	COMMENT 'æµå¼ä»»åŠ¡ä¸Šä¸€æ¬¡æ—¶é—´å‚æ•°',
+	flow_cur_time                  bigint          DEFAULT 0          NOT NULL	COMMENT 'æµå¼ä»»åŠ¡å½“å‰æ—¶é—´å‚æ•°',
+	cuckoo_parallel_job_args       varchar(256)    DEFAULT ''         NOT NULL	COMMENT 'å¹¶å‘/é›†ç¾¤ä»»åŠ¡å‚æ•°',
+	job_start_time                 bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡å¼€å§‹æ—¶é—´',
+	job_exec_time                  bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡æ‰§è¡Œæ—¶é—´',
+	job_end_time                   bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡ç»“æŸæ—¶é—´',
+	exec_job_status                varchar(10)     DEFAULT ''         NOT NULL	COMMENT 'æ‰§è¡ŒçŠ¶æ€',
+	cuckoo_client_ip               varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'æ‰§è¡Œå™¨IP',
+	cuckoo_client_port             int             DEFAULT 0          NOT NULL	COMMENT 'å®¢æˆ·ç«¯port',
+	latest_check_time              bigint          DEFAULT 0          NOT NULL	COMMENT 'æœ€è¿‘æ£€æŸ¥æ—¶é—´',
+	need_triggle_next              boolean         DEFAULT 1          NOT NULL	COMMENT 'æ˜¯å¦è§¦å‘ä¸‹çº§ä»»åŠ¡',
+	force_triggle                  boolean         DEFAULT 1          NOT NULL	COMMENT 'æ˜¯å¦å¼ºåˆ¶è§¦å‘',
+	remark                         varchar(5000)    DEFAULT ''         NOT NULL	COMMENT 'å¤‡æ³¨',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÈÎÎñÖ´ĞĞÁ÷Ë®±í'
+COMMENT='ä»»åŠ¡æ‰§è¡Œæµæ°´è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE INDEX idx_joblog_jobid ON cuckoo_job_exec_log(job_id ASC );
@@ -109,28 +109,28 @@ CREATE INDEX idx_joblog_endtime ON cuckoo_job_exec_log(job_end_time ASC );
 
 CREATE TABLE cuckoo_job_extend
 (
-	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñID',
-	email_list                     varchar(2000)   DEFAULT ''         NOT NULL	COMMENT 'ÓÊ¼şÁĞ±í¶ººÅ·Ö¸ô',
-	over_time_long                 bigint          DEFAULT 0          NOT NULL	COMMENT 'ÓÊ¼ş³¬Ê±Ê±¼äÉèÖÃ(ºÁÃë)',
+	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡ID',
+	email_list                     varchar(2000)   DEFAULT ''         NOT NULL	COMMENT 'é‚®ä»¶åˆ—è¡¨é€—å·åˆ†éš”',
+	over_time_long                 bigint          DEFAULT 0          NOT NULL	COMMENT 'é‚®ä»¶è¶…æ—¶æ—¶é—´è®¾ç½®(æ¯«ç§’)',
 PRIMARY KEY(job_id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÈÎÎñÆäËûĞÅÏ¢'
+COMMENT='ä»»åŠ¡å…¶ä»–ä¿¡æ¯'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 
 
 CREATE TABLE cuckoo_job_group
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	group_name                     varchar(100)    DEFAULT ''         NOT NULL	COMMENT '·Ö×éÃû³Æ',
-	group_desc                     varchar(500)    DEFAULT ''         NOT NULL	COMMENT '·Ö×éÃèÊö',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	group_name                     varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'åˆ†ç»„åç§°',
+	group_desc                     varchar(500)    DEFAULT ''         NOT NULL	COMMENT 'åˆ†ç»„æè¿°',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÈÎÎñ·Ö×é±í'
+COMMENT='ä»»åŠ¡åˆ†ç»„è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 
@@ -138,35 +138,35 @@ ROW_FORMAT=COMPACT;
 
 CREATE TABLE cuckoo_job_next_job
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñID',
-	next_job_id                    bigint          DEFAULT 0          NOT NULL	COMMENT 'ÏÂ¼¶ÈÎÎñID',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	job_id                         bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡ID',
+	next_job_id                    bigint          DEFAULT 0          NOT NULL	COMMENT 'ä¸‹çº§ä»»åŠ¡ID',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÏÂ¼¶ÈÎÎñ´¥·¢±í'
+COMMENT='ä¸‹çº§ä»»åŠ¡è§¦å‘è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE UNIQUE INDEX uk_cuckoo_next_job ON cuckoo_job_next_job(next_job_id ASC );
 CREATE INDEX idx_jobnext_jobid ON cuckoo_job_next_job(job_id ASC );
 
 
--- ÍøÂçÍ¨ĞÅ¹ÜÀí±í
+-- ç½‘ç»œé€šä¿¡ç®¡ç†è¡¨
 
 CREATE TABLE cuckoo_net_client_info
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	server_id                      bigint          DEFAULT 0          NOT NULL	COMMENT '·şÎñÆ÷ID',
-	ip                             varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'IPµØÖ·',
-	port                           int             DEFAULT 0          NOT NULL	COMMENT '¶Ë¿ÚºÅ',
-	modify_date                    bigint          DEFAULT 0          NOT NULL	COMMENT 'ĞŞ¸ÄÊ±¼ä',
-	client_tag                     varchar(64)     DEFAULT ''         NOT NULL	COMMENT '¿Í»§¶Ë±êÊ¶',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	server_id                      bigint          DEFAULT 0          NOT NULL	COMMENT 'æœåŠ¡å™¨ID',
+	ip                             varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'IPåœ°å€',
+	port                           int             DEFAULT 0          NOT NULL	COMMENT 'ç«¯å£å·',
+	modify_date                    bigint          DEFAULT 0          NOT NULL	COMMENT 'ä¿®æ”¹æ—¶é—´',
+	client_tag                     varchar(64)     DEFAULT ''         NOT NULL	COMMENT 'å®¢æˆ·ç«¯æ ‡è¯†',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='¿Í»§¶ËĞÅÏ¢±í'
+COMMENT='å®¢æˆ·ç«¯ä¿¡æ¯è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE INDEX idx_netclient_serverid ON cuckoo_net_client_info(server_id ASC );
@@ -176,14 +176,14 @@ CREATE INDEX idx_netclient_serverid ON cuckoo_net_client_info(server_id ASC );
 
 CREATE TABLE cuckoo_net_client_job_map
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	client_id                      bigint          DEFAULT 0          NOT NULL	COMMENT '¿Í»§¶ËID',
-	regist_id                      bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñ×¢²áID',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	client_id                      bigint          DEFAULT 0          NOT NULL	COMMENT 'å®¢æˆ·ç«¯ID',
+	regist_id                      bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡æ³¨å†ŒID',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='¿Í»§¶ËÓë×¢²áÈÎÎñ¹ØÁª±í'
+COMMENT='å®¢æˆ·ç«¯ä¸æ³¨å†Œä»»åŠ¡å…³è”è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE UNIQUE INDEX idx_clientjob_clientid_registid ON cuckoo_net_client_job_map(client_id ASC ,regist_id ASC );
@@ -192,18 +192,18 @@ CREATE INDEX idx_clientjob_regiestid ON cuckoo_net_client_job_map(regist_id ASC 
 
 CREATE TABLE cuckoo_net_regist_job
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT '×÷ÒµÖ´ĞĞÓ¦ÓÃÃû',
-	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ÈÎÎñÃû³Æ',
-	bean_name                      varchar(256)    DEFAULT ''         NOT NULL	COMMENT 'ÊµÏÖÀàÃû³Æ',
-	method_name                    varchar(100)    DEFAULT ''         NOT NULL	COMMENT '·½·¨Ãû³Æ',
-	create_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT '´´½¨Ê±¼ä',
-	modify_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'ĞŞ¸ÄÊ±¼ä',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	job_class_application          varchar(50)     DEFAULT ''         NOT NULL	COMMENT 'ä½œä¸šæ‰§è¡Œåº”ç”¨å',
+	job_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ä»»åŠ¡åç§°',
+	bean_name                      varchar(256)    DEFAULT ''         NOT NULL	COMMENT 'å®ç°ç±»åç§°',
+	method_name                    varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'æ–¹æ³•åç§°',
+	create_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'åˆ›å»ºæ—¶é—´',
+	modify_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'ä¿®æ”¹æ—¶é—´',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÈÎÎñ×¢²á±í'
+COMMENT='ä»»åŠ¡æ³¨å†Œè¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE INDEX idx_clientjob_jobname ON cuckoo_net_regist_job(job_name ASC );
@@ -211,15 +211,15 @@ CREATE UNIQUE INDEX uk_clientjob_app_jobname ON cuckoo_net_regist_job(job_class_
 
 CREATE TABLE cuckoo_net_server_info
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	ip                             varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'IPµØÖ·',
-	port                           int             DEFAULT 0          NOT NULL	COMMENT '¶Ë¿ÚºÅ',
-	modify_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'ĞŞ¸ÄÊ±¼ä',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	ip                             varchar(30)     DEFAULT ''         NOT NULL	COMMENT 'IPåœ°å€',
+	port                           int             DEFAULT 0          NOT NULL	COMMENT 'ç«¯å£å·',
+	modify_date                    decimal(13,0)   DEFAULT 0          NOT NULL	COMMENT 'ä¿®æ”¹æ—¶é—´',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='·şÎñ¶ËĞÅÏ¢±í'
+COMMENT='æœåŠ¡ç«¯ä¿¡æ¯è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE UNIQUE INDEX uk_netserver_ip_port ON cuckoo_net_server_info(ip ASC ,port ASC );
@@ -227,35 +227,35 @@ CREATE UNIQUE INDEX uk_netserver_ip_port ON cuckoo_net_server_info(ip ASC ,port 
 
 CREATE TABLE cuckoo_net_server_job_map
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	server_id                      bigint          DEFAULT 0          NOT NULL	COMMENT '·şÎñÆ÷ID',
-	regist_id                      bigint          DEFAULT 0          NOT NULL	COMMENT 'ÈÎÎñ×¢²áID',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	server_id                      bigint          DEFAULT 0          NOT NULL	COMMENT 'æœåŠ¡å™¨ID',
+	regist_id                      bigint          DEFAULT 0          NOT NULL	COMMENT 'ä»»åŠ¡æ³¨å†ŒID',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='·şÎñ¶ËÓë×¢²áÈÎÎñ¹ØÁª±í'
+COMMENT='æœåŠ¡ç«¯ä¸æ³¨å†Œä»»åŠ¡å…³è”è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE INDEX idx_serverjob_serverid_registid ON cuckoo_net_server_job_map(server_id ASC ,regist_id ASC );
 CREATE INDEX idx_serverjob_registid ON cuckoo_net_server_job_map(regist_id ASC );
 
 
--- È¨ÏŞÈÏÖ¤±í
+-- æƒé™è®¤è¯è¡¨
 CREATE TABLE cuckoo_auth_user
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	user_name                      varchar(64)     DEFAULT ''         NOT NULL	COMMENT 'ÓÃ»§ĞÕÃû',
-	user_pwd                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ÓÃ»§ÃÜÂë',
-	user_auth_type                 varchar(8)      DEFAULT ''         NOT NULL	COMMENT 'ÓÃ»§È¨ÏŞÀàĞÍ',
-	phone                          varchar(20)     DEFAULT ''         NOT NULL	COMMENT 'µç»°',
-	email                          varchar(32)     DEFAULT ''         NOT NULL	COMMENT 'ÓÊ¼ş',
-	org_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT '»ú¹¹Ãû³Æ',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	user_name                      varchar(64)     DEFAULT ''         NOT NULL	COMMENT 'ç”¨æˆ·å§“å',
+	user_pwd                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'ç”¨æˆ·å¯†ç ',
+	user_auth_type                 varchar(8)      DEFAULT ''         NOT NULL	COMMENT 'ç”¨æˆ·æƒé™ç±»å‹',
+	phone                          varchar(20)     DEFAULT ''         NOT NULL	COMMENT 'ç”µè¯',
+	email                          varchar(32)     DEFAULT ''         NOT NULL	COMMENT 'é‚®ä»¶',
+	org_name                       varchar(100)    DEFAULT ''         NOT NULL	COMMENT 'æœºæ„åç§°',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='ÓÃ»§±í'
+COMMENT='ç”¨æˆ·è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE UNIQUE INDEX uk_authuser_name ON cuckoo_auth_user(user_name ASC );
@@ -263,17 +263,17 @@ CREATE UNIQUE INDEX uk_authuser_name ON cuckoo_auth_user(user_name ASC );
 
 CREATE TABLE cuckoo_auth_jobgrp
 (
-	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT '±ê×¼ID',
-	group_id                       bigint          DEFAULT 0          NOT NULL	COMMENT '·Ö×éID',
-	user_id                        bigint          DEFAULT 0          NOT NULL	COMMENT 'ÓÃ»§ID',
-	writable                       varchar(3)      DEFAULT ''         NOT NULL	COMMENT '¿ÉĞ´',
-	readable                       varchar(3)      DEFAULT ''         NOT NULL	COMMENT '¿É¶Á',
-	grantable                      varchar(3)      DEFAULT ''         NOT NULL	COMMENT '¿É·ÖÅä',
+	id                             bigint          NOT NULL AUTO_INCREMENT	COMMENT 'æ ‡å‡†ID',
+	group_id                       bigint          DEFAULT 0          NOT NULL	COMMENT 'åˆ†ç»„ID',
+	user_id                        bigint          DEFAULT 0          NOT NULL	COMMENT 'ç”¨æˆ·ID',
+	writable                       varchar(3)      DEFAULT ''         NOT NULL	COMMENT 'å¯å†™',
+	readable                       varchar(3)      DEFAULT ''         NOT NULL	COMMENT 'å¯è¯»',
+	grantable                      varchar(3)      DEFAULT ''         NOT NULL	COMMENT 'å¯åˆ†é…',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_bin
-COMMENT='·Ö×éÈ¨ÏŞ¿ØÖÆ±í'
+COMMENT='åˆ†ç»„æƒé™æ§åˆ¶è¡¨'
 AUTO_INCREMENT=1
 ROW_FORMAT=COMPACT;
 CREATE INDEX idx_authjobgrp_groupid ON cuckoo_auth_jobgrp(group_id ASC );
