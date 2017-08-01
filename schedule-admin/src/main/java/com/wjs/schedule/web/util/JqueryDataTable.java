@@ -40,6 +40,7 @@ public class JqueryDataTable<T> implements java.io.Serializable {
 	
 
 	public JqueryDataTable() {
+		
 		super();
 	}
 

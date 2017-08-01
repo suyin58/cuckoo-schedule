@@ -30,7 +30,7 @@ public class ScriptExecutor {
 			appendCmd(cmd, String.valueOf(jobInfo.getFlowCurrTime()));
 		}
 		
-		Process p;
+		Process p = null;
 		StringBuffer sbResult = new StringBuffer();
 		try {
 			LOGGER.info("script ready to exec:{}", cmd.toString());
@@ -79,6 +79,10 @@ public class ScriptExecutor {
 			// 发送服务端，任务执行异常
 			jobInfo.setErrMessage(e.getMessage());
 			ClientUtil.send(CuckooMessageType.JOBFAILED, jobInfo);
+		}finally{
+			if(null != p){
+				p.destroy();
+			}
 		}
 	}
 
