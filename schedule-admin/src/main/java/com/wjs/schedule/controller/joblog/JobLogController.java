@@ -13,6 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -191,6 +192,7 @@ public class JobLogController extends BaseController {
 	
 	@ResponseBody
 	@RequestMapping(value="/redo")
+	@Transactional(rollbackFor = Exception.class)
 	public Object redo(Long logId, Boolean needTriggleNext){
 		
 		if(null == logId){
@@ -200,6 +202,7 @@ public class JobLogController extends BaseController {
 //		cuckooJobLogService.resetLogStatus(logId, CuckooJobExecStatus.SUCCED);
 		
 		CuckooJobExecLog cuckooJobExecLog = cuckooJobLogService.getJobLogByLogId(logId);
+		
 		if(null == cuckooJobExecLog){
 			 throw new BaseException("can not get jobLog by logid:{}", logId);
 		}
@@ -216,6 +219,11 @@ public class JobLogController extends BaseController {
 			 throw new BaseException("can not get jobDetail by jobId:{}", cuckooJobExecLog.getJobId());
 		}
 		Long id = cuckooJobService.pendingJob(jobDetail, cuckooJobExecLog);
+		
+		
+		// 设置当前任务为成功
+		cuckooJobExecLog.setExecJobStatus(CuckooJobExecStatus.SUCCED.getValue());
+		cuckooJobLogService.updateJobLogByPk(cuckooJobExecLog);
 		
 		return success(id);
 	}

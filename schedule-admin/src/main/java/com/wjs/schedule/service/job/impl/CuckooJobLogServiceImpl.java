@@ -346,7 +346,10 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 	@Override
 	public boolean checkPreLogIsDone(CuckooJobExecLog jobLog) {
 
-		
+		if("1".equals("1")){
+			// 此处取消任务连续性的校验（上个任务成功、上个任务和本次任务的时间连续）
+			return true;
+		}
 		
 		
 		if(CuckooBooleanFlag.YES.getValue().equals(jobLog.getTypeDaily())){
