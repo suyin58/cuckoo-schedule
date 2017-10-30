@@ -49,28 +49,32 @@ var jsondata = {
 		},
 		"lines" : {
 			"demo_line_52" : {
-				"type" : "sl",
+				"type" : "lr",
+				"M" : 325,
 				"job" : "direct",
 				"from" : "demo_node_48",
 				"to" : "demo_node_49",
 				"name" : ""
 			},
 			"demo_line_53" : {
-				"type" : "sl",
+				"type" : "lr",
+				"M" : 480,
 				"job" : "direct",
 				"from" : "demo_node_49",
 				"to" : "demo_node_50",
 				"name" : ""
 			},
 			"demo_line_54" : {
-				"type" : "sl",
+				"type" : "lr",
+				"M" : 642,
 				"job" : "direct",
 				"from" : "demo_node_50",
 				"to" : "demo_node_51",
 				"name" : ""
 			},
 			"demo_line_57" : {
-				"type" : "sl",
+				"type" : "lr",
+				"M": 290.5,
 				"job" : "direct",
 				"from" : "demo_node_48",
 				"to" : "demo_node_56",
