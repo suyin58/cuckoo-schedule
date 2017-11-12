@@ -57,9 +57,9 @@
 			<version>1.1.7</version>
 		</dependency>
 		<dependency>
-			<groupId>hessian</groupId>
-			<artifactId>hessian</artifactId>
-			<version>4.0.7</version>
+		    <groupId>com.caucho</groupId>
+		    <artifactId>hessian</artifactId>
+		    <version>4.0.7</version>
 		</dependency>
 		
 		<!-- mybatis-spring -->
