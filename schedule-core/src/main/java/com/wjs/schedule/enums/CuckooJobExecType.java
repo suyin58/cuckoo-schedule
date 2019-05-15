@@ -7,8 +7,8 @@ public enum CuckooJobExecType {
  
 
 	NULL("", "全部/无"),
-	CUCKOO("CUCKOO", "CUCKOO")/*CUCKOO任务*/, 
-	SCRIPT("SCRIPT", "脚本")/*脚本任务*/; 
+	DUBBO("DUBBO", "DUBBO")/*Dubbo任务*/, 
+	HTTP("HTTP", "HTTP")/*HTTP任务*/; 
 	
 	private final String value;
 	

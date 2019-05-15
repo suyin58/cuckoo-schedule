@@ -31,7 +31,6 @@ import com.wjs.schedule.qry.job.JobLogQry;
 import com.wjs.schedule.service.auth.CuckooAuthService;
 import com.wjs.schedule.service.job.CuckooJobDependencyService;
 import com.wjs.schedule.service.job.CuckooJobLogService;
-import com.wjs.schedule.service.job.CuckooJobNextService;
 import com.wjs.schedule.service.job.CuckooJobService;
 import com.wjs.util.DateUtil;
 import com.wjs.util.bean.PropertyUtil;
@@ -59,8 +58,6 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 	@Autowired
 	CuckooJobDependencyService cuckooJobDependencyService;
 	
-	@Autowired
-	CuckooJobNextService cuckooJobNextService;
 	
 	@Autowired
 	CuckooJobService cuckooJobService;
@@ -83,6 +80,7 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void updateJobLogStatusById(Long id, CuckooJobExecStatus jobStatus, String message) {
 
 		CuckooJobExecLog log = new CuckooJobExecLog();
@@ -130,6 +128,7 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void updateJobLogByPk(CuckooJobExecLog cuckooJobExecLogs) {
 
 		cuckooJobExecLogMapper.updateByPrimaryKeySelective(cuckooJobExecLogs);
@@ -472,41 +471,41 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 		return page;
 	}
 
-	@Override
-	public CuckooJobExecLog getPreJobLogs(CuckooJobExecLog cuckooJobExecLog) {
-		
-		Long preJobId = cuckooJobNextService.findJobIdByNextJobId(cuckooJobExecLog.getJobId());
-		
-		
-		if(null != preJobId){
-			
-			CuckooJobExecLogCriteria crt = new CuckooJobExecLogCriteria();
-			crt.setOrderByClause("id desc");
-			crt.setStart(0);
-			crt.setLimit(1);
-			
-			if(CuckooBooleanFlag.YES.getValue().equals(cuckooJobExecLog.getTypeDaily())){
-				// 日期任务根据txdate判断
-				crt.createCriteria().andJobIdEqualTo(preJobId)
-				.andTxDateEqualTo(cuckooJobExecLog.getTxDate());
-			}else if(CuckooBooleanFlag.NO.getValue().equals(cuckooJobExecLog.getTypeDaily())){
-				// 非日切任务根据flow_last_time来判断
-				crt.createCriteria().andJobIdEqualTo(preJobId)
-				.andFlowLastTimeEqualTo(cuckooJobExecLog.getFlowLastTime());
-			}
-			List<CuckooJobExecLog> rtn =  cuckooJobExecLogMapper.selectByExample(crt);
-			if(CollectionUtils.isNotEmpty(rtn)){
-				return rtn.get(0);
-			}
-		}
-		
-		return null;
-	}
+//	@Override
+//	public CuckooJobExecLog getPreJobLogs(CuckooJobExecLog cuckooJobExecLog) {
+//		
+//		Long preJobId = cuckooJobNextService.findJobIdByNextJobId(cuckooJobExecLog.getJobId());
+//		
+//		
+//		if(null != preJobId){
+//			
+//			CuckooJobExecLogCriteria crt = new CuckooJobExecLogCriteria();
+//			crt.setOrderByClause("id desc");
+//			crt.setStart(0);
+//			crt.setLimit(1);
+//			
+//			if(CuckooBooleanFlag.YES.getValue().equals(cuckooJobExecLog.getTypeDaily())){
+//				// 日期任务根据txdate判断
+//				crt.createCriteria().andJobIdEqualTo(preJobId)
+//				.andTxDateEqualTo(cuckooJobExecLog.getTxDate());
+//			}else if(CuckooBooleanFlag.NO.getValue().equals(cuckooJobExecLog.getTypeDaily())){
+//				// 非日切任务根据flow_last_time来判断
+//				crt.createCriteria().andJobIdEqualTo(preJobId)
+//				.andFlowLastTimeEqualTo(cuckooJobExecLog.getFlowLastTime());
+//			}
+//			List<CuckooJobExecLog> rtn =  cuckooJobExecLogMapper.selectByExample(crt);
+//			if(CollectionUtils.isNotEmpty(rtn)){
+//				return rtn.get(0);
+//			}
+//		}
+//		
+//		return null;
+//	}
 
 	@Override
 	public List<CuckooJobExecLog> getNextJobs(CuckooJobExecLog cuckooJobExecLog) {
 
-		List<Long> nextJobIds = cuckooJobNextService.findNextJobIdByJobId(cuckooJobExecLog.getJobId());
+		List<Long> nextJobIds = cuckooJobDependencyService.listNextIdsByJobId(cuckooJobExecLog.getJobId());
 		
 		List<CuckooJobExecLog> result = new ArrayList<>();
 		

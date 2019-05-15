@@ -79,9 +79,6 @@ public class QuartzAutoJobExecutor extends QuartzJobBean {
 			// 任务超时/失败等告警
 			waringJobException();
 			
-			// 服务器、执行器长时间弃用校验
-			removeUselessCuckooNetMessage();
-			
 		} catch (Exception e) {
 			LOGGER.error("unknow error:{}", e.getMessage() , e);
 		}
@@ -89,10 +86,6 @@ public class QuartzAutoJobExecutor extends QuartzJobBean {
 	}
 	
 	
-	private void removeUselessCuckooNetMessage() {
-
-		cuckooNetService.removeUselessCuckooNetMessage();
-	}
 
 	/**
 	 * 任务超时/失败等告警

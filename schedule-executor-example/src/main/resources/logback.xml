@@ -141,7 +141,7 @@
         <appender-ref ref="requestAppender" />
     </logger>
  	-->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="lbcAppender" />
     </root>
 </configuration>

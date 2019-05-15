@@ -11,15 +11,12 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 import com.wjs.schedule.component.cuckoo.CuckooJobCallBack;
 import com.wjs.schedule.component.quartz.QuartzManage;
-import com.wjs.schedule.dao.net.CuckooNetServerInfoMapper;
 
 public class CuckooContainerManager implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Autowired
 	QuartzManage quartzManage;
 
-	@Autowired
-	CuckooNetServerInfoMapper cuckooNetServerInfoMapper;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CuckooJobCallBack.class);
 

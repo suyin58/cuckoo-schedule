@@ -102,8 +102,8 @@
 					                	<th name="id" >id</th>
 					                	<th name="groupId" >分组ID</th>
 					                	<th name="jobId" >任务ID</th>
-					                  	<th name="jobName" >任务名称</th>
-					                  	<th name="jobClassApplication" >作业执行应用名</th>
+					                  	<th name="jobClassApplication" >执行路径</th>
+					                  	<th name="jobName" >方法名称</th>
                                         <th name="triggerType" >触发类型</th>
                                         
 					                  	<th name="cronExpression" >cron任务表达式</th>

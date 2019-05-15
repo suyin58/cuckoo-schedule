@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wjs.schedule.bean.JobInfoBean;
@@ -27,6 +28,9 @@ import com.wjs.schedule.net.client.ClientUtil;
 public class CuckooTaskAspect {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CuckooTaskAspect.class);
+	
+	@Autowired
+	ClientUtil clientUtil;
 
 	@Around("@annotation(task)")
 	public Object lockWait(ProceedingJoinPoint pjp, CuckooTask task) throws Throwable {
@@ -47,14 +51,14 @@ public class CuckooTaskAspect {
 			rtn = pjp.proceed();
 			
 			// 发送服务端，任务执行完成
-			jobinfo.setErrMessage("succed!");
-			ClientUtil.send(CuckooMessageType.JOBSUCCED, jobinfo);
+			jobinfo.setMessage("succed!");
+			clientUtil.send(CuckooMessageType.JOBSUCCED, jobinfo);
 			LOGGER.info("task exec succed taskName:{}, jobInfo:{}", task.value(), jobinfo);
 		} catch (Throwable e) {
 			LOGGER.error("task exec error taskName:{}", task.value(), e);
 			// 发送服务端，任务执行失败
-			jobinfo.setErrMessage(e.getMessage());
-			ClientUtil.send(CuckooMessageType.JOBFAILED, jobinfo);
+			jobinfo.setMessage(e.getMessage());
+			clientUtil.send(CuckooMessageType.JOBFAILED, jobinfo);
 			throw e;
 		}
 		return rtn;

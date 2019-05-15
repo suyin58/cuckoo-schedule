@@ -1,9 +1,7 @@
 package com.wjs.schedule.service.job.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wjs.schedule.component.cuckoo.CuckooJobExecutor;
@@ -21,24 +20,20 @@ import com.wjs.schedule.dao.exec.CuckooJobDetailMapper;
 import com.wjs.schedule.dao.exec.CuckooJobExecLogMapper;
 import com.wjs.schedule.dao.exec.CuckooJobExtendMapper;
 import com.wjs.schedule.dao.exec.CuckooJobGroupMapper;
-import com.wjs.schedule.dao.net.CuckooNetRegistJobMapper;
 import com.wjs.schedule.domain.exec.CuckooJobDetail;
 import com.wjs.schedule.domain.exec.CuckooJobDetailCriteria;
 import com.wjs.schedule.domain.exec.CuckooJobExecLog;
 import com.wjs.schedule.domain.exec.CuckooJobExtend;
 import com.wjs.schedule.domain.exec.CuckooJobGroup;
-import com.wjs.schedule.domain.net.CuckooNetRegistJob;
-import com.wjs.schedule.domain.net.CuckooNetRegistJobCriteria;
+import com.wjs.schedule.enums.CuckooBooleanFlag;
 import com.wjs.schedule.enums.CuckooJobExecStatus;
 import com.wjs.schedule.enums.CuckooJobStatus;
 import com.wjs.schedule.enums.CuckooJobTriggerType;
-import com.wjs.schedule.enums.CuckooBooleanFlag;
 import com.wjs.schedule.exception.BaseException;
 import com.wjs.schedule.qry.job.JobInfoQry;
 import com.wjs.schedule.service.auth.CuckooAuthService;
 import com.wjs.schedule.service.job.CuckooJobDependencyService;
 import com.wjs.schedule.service.job.CuckooJobLogService;
-import com.wjs.schedule.service.job.CuckooJobNextService;
 import com.wjs.schedule.service.job.CuckooJobService;
 import com.wjs.schedule.vo.job.CuckooJobDetailVo;
 import com.wjs.util.bean.PropertyUtil;
@@ -67,11 +62,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 	@Autowired
 	CuckooJobLogService cuckooJobLogService;
 
-	@Autowired
-	CuckooNetRegistJobMapper cuckooNetRegistJobMapper;
 
-	@Autowired
-	CuckooJobNextService cuckooJobNextService;
 
 	@Autowired
 	CuckooJobDependencyService cuckooJobDependencyService;
@@ -129,14 +120,17 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			throw new BaseException("cuckoo_job_details insert error,can not get autoincriment id");
 		}
 
-		if (null != jobDetail.getPreJobId()) {
-			// 触发任务
-			CuckooJobDetail jobPreTriggle = getJobById(jobDetail.getPreJobId());
-			if (null == jobPreTriggle) {
-				throw new BaseException("can not find pre trigger job by preJobId:{}", jobDetail.getPreJobId());
-			}
-			cuckooJobNextService.addOrUpdate(jobDetail.getPreJobId(), jobId);
-		}
+//		删除触发任务，通过依赖任务进行触发 suzy 20190508
+//		if (null != jobDetail.getPreJobId()) {
+//			// 触发任务
+//			CuckooJobDetail jobPreTriggle = getJobById(jobDetail.getPreJobId());
+//			if (null == jobPreTriggle) {
+//				throw new BaseException("can not find pre trigger job by preJobId:{}", jobDetail.getPreJobId());
+//			}
+//			cuckooJobNextService.addOrUpdate(jobDetail.getPreJobId(), jobId);
+//		}
+		
+		
 		if (StringUtils.isNotEmpty(jobDetail.getDependencyIds())) {
 			// 依赖任务
 			String[] dependencyIds = jobDetail.getDependencyIds().split(",");
@@ -214,8 +208,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		PropertyUtil.copyProperties(targetJobDetail, jobInfo);
 
 		cuckooJobDetailMapper.updateByPrimaryKeySelective(targetJobDetail);
-		if (CuckooJobTriggerType.JOB.getValue().equals(orginJobDetail.getTriggerType())
-				|| CuckooJobTriggerType.NONE.getValue().equals(orginJobDetail.getTriggerType())) {
+		if (CuckooJobTriggerType.JOB.getValue().equals(orginJobDetail.getTriggerType())) {
 			// 原来任务类型为job触发 且新任务为Cron，那么需要新增quartz。否则不做处理
 			if (CuckooJobTriggerType.CRON.getValue().equals(targetJobDetail.getTriggerType())) {
 
@@ -238,19 +231,6 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			throw new BaseException("unknow job triggle type : " + jobInfo.getTriggerType());
 		}
 
-		if (CuckooJobTriggerType.CRON.getValue().equals(targetJobDetail.getTriggerType())) {
-			// CRON触发的任务，删除被触发任务关系
-			cuckooJobNextService.deletePreJob(targetJobDetail.getId());
-		} else {
-			if (null != jobInfo.getPreJobId()) {
-				// 触发任务
-				CuckooJobDetail jobPreTriggle = getJobById(jobInfo.getPreJobId());
-				if (null == jobPreTriggle) {
-					throw new BaseException("can not find pre trigger job by preJobId:{}", jobInfo.getPreJobId());
-				}
-				cuckooJobNextService.addOrUpdate(jobInfo.getPreJobId(), jobInfo.getId());
-			}
-		}
 
 		String[] dependencyIds = {};
 		if (StringUtils.isNotEmpty(jobInfo.getDependencyIds())) {
@@ -425,7 +405,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 	@Override
 	public List<CuckooJobDetail> getNextJobById(Long jobId) {
 
-		List<Long> nextJobids = cuckooJobNextService.findNextJobIdByJobId(jobId);
+		List<Long> nextJobids = cuckooJobDependencyService.listNextIdsByJobId(jobId);
 		if (CollectionUtils.isEmpty(nextJobids)) {
 			return new ArrayList<>(0);
 		}
@@ -465,23 +445,9 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		return cuckooJobDetailMapper.pageByExample(crt);
 	}
 
-	@Override
-	public Map<String, String> findAllApps() {
-
-		List<CuckooNetRegistJob> jobs = cuckooNetRegistJobMapper
-				.selectByExample(new CuckooNetRegistJobCriteria());
-		List<String> jobApps = PropertyUtil.fetchFieldList(jobs, "jobClassApplication");
-		Map<String, String> rtn = new LinkedHashMap<>();
-		if (CollectionUtils.isNotEmpty(jobApps)) {
-			for (String jobApp : jobApps) {
-				rtn.put(jobApp, jobApp);
-			}
-		}
-		return rtn;
-	}
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public Long pendingJob(CuckooJobDetail jobDetail, CuckooJobExecLog fatherJobLog) {
 
 		CuckooJobExecLog jobLog = new CuckooJobExecLog();
@@ -505,7 +471,12 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		
 		jobLog.setId(cuckooJobExecLogMapper.lastInsertId());
 		// 使用Quartz.simpleJob进行触发
-		quartzManage.addSimpleJob(jobLog, 0L);
+		try {
+			quartzManage.addSimpleJob(jobLog, 0L);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			cuckooJobLogService.updateJobLogStatusById(jobLog.getId(), CuckooJobExecStatus.FAILED, e.getMessage());
+		}
 		return jobLog.getId();
 	}
 

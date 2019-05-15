@@ -31,6 +31,11 @@ public class JobInfoBean implements Serializable{
 	private boolean typeDaily;
 	
 	/**
+	 * 任务描述
+	 */
+	private String jobClassApplication;
+	
+	/**
 	 * 任务/脚本名称，用于与客户端寻找可执行器
 	 */
 	private String jobName;
@@ -71,7 +76,7 @@ public class JobInfoBean implements Serializable{
 	 */
 //	private CuckooJobTriggerType triggerType;
 	
-	private String errMessage;
+	private String message;
 
 	public Long getJobLogId() {
 		return jobLogId;
@@ -109,6 +114,18 @@ public class JobInfoBean implements Serializable{
 
 	public void setTypeDaily(boolean typeDaily) {
 		this.typeDaily = typeDaily;
+	}
+	
+	
+	public String getJobClassApplication() {
+	
+		return jobClassApplication;
+	}
+
+	
+	public void setJobClassApplication(String jobClassApplication) {
+	
+		this.jobClassApplication = jobClassApplication;
 	}
 
 	public String getJobName() {
@@ -187,19 +204,25 @@ public class JobInfoBean implements Serializable{
 //		this.needTrigglerNext = needTrigglerNext;
 //	}
 	
-	public String getErrMessage() {
-		return errMessage;
-	}
 
-	public void setErrMessage(String errMessage) {
-		this.errMessage = errMessage;
-	}
-
+	
 
 	@Override
 	public String toString() {
 		
 		return ReflectionToStringBuilder.toString(this);
+	}
+
+	
+	public String getMessage() {
+	
+		return message;
+	}
+
+	
+	public void setMessage(String message) {
+	
+		this.message = message;
 	}
 
 

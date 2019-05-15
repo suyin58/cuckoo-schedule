@@ -29,7 +29,6 @@ import com.wjs.schedule.exception.BaseException;
 import com.wjs.schedule.qry.job.JobInfoQry;
 import com.wjs.schedule.service.job.CuckooGroupService;
 import com.wjs.schedule.service.job.CuckooJobDependencyService;
-import com.wjs.schedule.service.job.CuckooJobNextService;
 import com.wjs.schedule.service.job.CuckooJobService;
 import com.wjs.schedule.vo.job.CuckooJobDetailVo;
 import com.wjs.util.DateUtil;
@@ -52,8 +51,6 @@ public class JobInfoController extends BaseController{
 	@Autowired
 	CuckooGroupService cuckooGroupService;
 	
-	@Autowired
-	CuckooJobNextService cuckooJobNextService;
 	
 	@Autowired
 	CuckooJobDependencyService cuckooJobDependencyService;
@@ -99,14 +96,6 @@ public class JobInfoController extends BaseController{
 		CuckooJobExecType[] jobExecTypes = CuckooJobExecType.valuesNoNull();
 		request.setAttribute("execJobTypes", jobExecTypes);
 		
-		
-		// APP应用
-		Map<String,String> jobAppList = cuckooJobService.findAllApps();
-		request.setAttribute("jobAppList", jobAppList);
-		Map<String,String> jobAppWithNull = new HashMap<>();
-		jobAppWithNull.put("", "全部/无");
-		jobAppWithNull.putAll(jobAppList);
-		request.setAttribute("jobAppWithNull", jobAppWithNull);
 		
 		
 		
@@ -199,7 +188,8 @@ public class JobInfoController extends BaseController{
 	@ResponseBody
 	public Object getPreJobIdByJobId(Long jobId){
 		
-		return success(cuckooJobNextService.findJobIdByNextJobId(jobId));
+//		return success(cuckooJobNextService.findJobIdByNextJobId(jobId)); TODO f
+		return null;
 	}
 	
 	
@@ -312,17 +302,17 @@ public class JobInfoController extends BaseController{
 	public Object add(HttpServletRequest request, CuckooJobDetailVo jobDetail){
 		
 		// 增加执行类型必要条件判断
-		if(CuckooJobExecType.CUCKOO.getValue().equals(jobDetail.getExecJobType())){
-			if(StringUtils.isEmpty(jobDetail.getJobClassApplication())){
-				throw new BaseException("CuckooJob's appName can not be null");
+		if(CuckooJobExecType.DUBBO.getValue().equals(jobDetail.getExecJobType())){
+			if(StringUtils.isEmpty(jobDetail.getJobName())){
+				throw new BaseException("CuckooJob's jobName can not be null");
 			}
 		}
 		
 		if(CuckooJobTriggerType.JOB.getValue().equals(jobDetail.getTriggerType())){
 			// 任务触发的任务，需要配置触发任务和依赖任务
-			if(null == jobDetail.getPreJobId()){
-				throw new BaseException("the job Triggered by another should have a preJob");
-			}
+//			if(null == jobDetail.getPreJobId()){
+//				throw new BaseException("the job Triggered by another should have a preJob");
+//			}
 			if(StringUtils.isEmpty(jobDetail.getDependencyIds()) ){
 				throw new BaseException("the job Triggered by another should have more then one dependency job(the prejob can be dependencyjob)");
 			}
@@ -367,26 +357,17 @@ public class JobInfoController extends BaseController{
 		
 		Map<String, Object> rtn = new HashMap<>();
 		// 查询
-		Long preJobId = cuckooJobNextService.findJobIdByNextJobId(jobId);
+//		Long preJobId = cuckooJobNextService.findJobIdByNextJobId(jobId);
 		
 		List<Long> dependencyIds = cuckooJobDependencyService.listDependencyIdsByJobId(jobId);
 		
-		// 依赖任务中过滤掉上级触发任务
-		if(CollectionUtils.isNotEmpty(dependencyIds) && null != preJobId ){
-			for (Iterator<Long> it = dependencyIds.iterator(); it.hasNext() ;) {
-				Long id = it.next();
-				if(preJobId.equals(id)){
-					it.remove();
-				}
-			}
-		}
 
-		List<Long> nextJobIds = cuckooJobNextService.findNextJobIdByJobId(jobId);
+		List<Long> nextJobIds = cuckooJobDependencyService.listNextIdsByJobId(jobId);
 		
 		rtn.put("curJob", convertJobVo(jobId));
 		rtn.put("depJobs", convertJobVos(dependencyIds));
 		rtn.put("nextJobs", convertJobVos(nextJobIds));
-		rtn.put("preJob", convertJobVo(preJobId));
+//		rtn.put("preJob", convertJobVo(preJobId));
 		
 		return success(rtn);
 	}

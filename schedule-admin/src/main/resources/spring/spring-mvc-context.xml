@@ -42,6 +42,7 @@
 			<list>
 				<value>/favicon.ico</value>
 				<value>/logon*</value>
+				<value>/callback*</value>
 			</list>
 		</property>
 	</bean>
@@ -89,6 +90,8 @@
 
 
 	<import resource="classpath*:spring/spring-service.xml" />
+	<!-- 
 	<import resource="classpath*:spring/spring-mina.xml" />
+	 -->
 
 </beans>

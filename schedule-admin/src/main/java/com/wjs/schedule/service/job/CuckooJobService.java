@@ -1,7 +1,6 @@
 package com.wjs.schedule.service.job;
 
 import java.util.List;
-import java.util.Map;
 
 import com.wjs.schedule.domain.exec.CuckooJobDetail;
 import com.wjs.schedule.domain.exec.CuckooJobExecLog;
@@ -103,11 +102,6 @@ public interface CuckooJobService {
 	public PageDataList<CuckooJobDetail> pageList(JobInfoQry jobInfo);
 
 
-	/**
-	 * 查询所有客户端应用名称
-	 * @return
-	 */
-	public Map<String,String> findAllApps();
 
 	
 	/**

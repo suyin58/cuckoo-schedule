@@ -1,28 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.wjs</groupId>
-		<artifactId>cuckoo-schedule</artifactId>
-		<version>${project.version}</version>
-	</parent>
-	<artifactId>schedule-admin</artifactId>
+	<groupId>com.wjs</groupId>
+	<artifactId>com.wjs.schedule.admin</artifactId>
+	<version>${project.version}</version>
 	<packaging>war</packaging>
 
-	<properties>		
+	<properties>
 		<project.version>1.1.0-SNAPSHOT</project.version>
 		<spring.version>4.0.6.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
-		
+
 		<!-- schedule-core -->
 		<dependency>
 			<groupId>com.wjs</groupId>
-			<artifactId>schedule-core</artifactId>
+			<artifactId>com.wjs.schedule.core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
+		
+		
+
 		<!-- springframe start -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -30,15 +30,15 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		
+
 		<!-- jackson (support spring json) -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
-		
-		 
+
+
 		<!-- freemarker -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
@@ -46,7 +46,7 @@
 			<version>2.3.20</version>
 		</dependency>
 
-		
+
 
 		<!-- servlet -->
 		<dependency>
@@ -74,13 +74,13 @@
 			<artifactId>c3p0</artifactId>
 			<version>0.9.1.2</version>
 		</dependency>
-		
+
 		<!-- dbcp -->
 		<dependency>
-		 	<groupId>commons-dbcp</groupId>
-		 	<artifactId>commons-dbcp</artifactId>
-		 	<version>1.4</version>
-  		</dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
 		<!-- mysql-connector -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -88,17 +88,11 @@
 			<version>5.1.29</version>
 		</dependency>
 
-		<!-- httpclient -->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3.6</version>
-		</dependency>
 
 		<!-- javax.mail -->
 		<dependency>
-		    <groupId>com.sun.mail</groupId>
-		    <artifactId>javax.mail</artifactId>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
 			<version>1.5.0</version>
 		</dependency>
 
@@ -106,20 +100,31 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.2.3</version>
+			<version>2.3.1</version>
 		</dependency>
 
-	
+
 	</dependencies>
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+
 				<!-- test插件, 仅测试名称为*Test的类, 使用支持分组测试的surefire-junit47 driver -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven.surefire.version}</version>
+					<version>2.16</version>
 					<configuration>
 						<includes>
 							<include>**/*Test.java</include>
@@ -136,8 +141,11 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+
+
 			</plugins>
 		</pluginManagement>
+
 	</build>
 
 </project>

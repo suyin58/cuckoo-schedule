@@ -26,11 +26,11 @@ $(function() {
 	                { "data": 'id', "bSortable": false, "visible" : true}, 
 	                { "data": 'groupId', "bSortable": false, "visible" : false},
 	                { "data": 'groupName' , "visible" : true },
+	                { "data": 'jobDesc', "visible" : true},
+	                { "data": 'jobClassApplication', "visible" : true},
 					{ "data": 'jobName', "visible" : true},
 					{ "data": 'execJobType', "visible" : false},
 					{ "data": 'execJobTypeDesc', "visible" : true},
-	                { "data": 'jobClassApplication', "visible" : true},
-	                { "data": 'jobDesc', "visible" : false},
 	                { "data": 'triggerType', "visible" : true},
 	                { "data": 'cronExpression', "visible" : true},
 	                { "data": 'typeDaily', "visible" : true},
@@ -355,26 +355,43 @@ $(function() {
 	
 	$("#editModal .form select[name='execJobType']").change(function(){
 		var execJobType = $("#editModal .form select[name='execJobType']").val();
-		if("CUCKOO" == execJobType){
+		if("DUBBO" == execJobType){
+			
+			
+			
 			// 显示app信息  ，参数信息
 			$("#editModal .form textarea[name='cuckooTypeContainer']").removeClass("hide");
-			$("#editModal .form textarea[name='cuckooTypeContainer']").val("Cuckoo任务需要注解支持，可以通过方法获得对应的参数\n" +
-					"执行参数：JobInfoBean.getCuckooParallelJobArgs()\n" +
-					"日切任务参数：JobInfoBean.getTxDate()\n" +
-					"非日期任务参数：JobInfoBean.getFlowLastTime();	JobInfoBean.getFlowCurrTime();");
+			$("#editModal .form textarea[name='cuckooTypeContainer']").val("Dubbo必须增加方法参数，eg:getUser(JobInfoBean bean)，可以通过方法获得对应的参数\n" +
+					"执行参数：bean.getCuckooParallelJobArgs()\n" +
+					"日切任务参数：bean.getTxDate()\n" +
+					"非日期任务参数：bean.getFlowLastTime();	bean.getFlowCurrTime();");
+			// 修改页面元素
+			$("#editModal  label[name='jobClassApplicationLabel']").html("接口名称<font color='red'>*</font>");
+			$("#editModal  label[name='jobNameLabel']").removeClass("hide");
+			$("#editModal .form input[name='jobName']").removeClass("hide");
+			
 			//修改placeHolder
-			$("#editModal .form input[name='jobName']").attr("placeholder","与@CuckooTask(‘任务名称’)对应");
+			$("#editModal .form input[name='jobName']").attr("placeholder","完整路径，eg：com.wjs.member.ExampleService");
+			$("#editModal .form input[name='jobName']").attr("placeholder","方法名，eg：getUser");
 			
 			
-		}else if("SCRIPT" == execJobType){
+		}else if("HTTP" == execJobType){
 			// 隐藏app信息  ，参数信息
 			$("#editModal .form textarea[name='cuckooTypeContainer']").removeClass("hide");
-			$("#editModal .form textarea[name='cuckooTypeContainer']").val("客户端脚本执行自动追加参数：script 执行参数  配置参数(日切:txDate【yyyyMMdd】 / 非日切:flowLastTime【时间戳Long】 flowCurTime【时间戳Long】) \n" +
-					"例如：日切任务--&lt; sh /home/job/execdaily.sh 执行参数  20150101 \n" +
-					"非日切任务-->&lt; sh /home/job/execundaily.sh 执行参数  1490926800000 1490926800000  ");
+			$("#editModal .form textarea[name='cuckooTypeContainer']").val("http自动增加参数：可通过request.getParatemer()的方式获取 \n" +
+					"执行参数：cuckooParallelJobArgs \n" +
+					"日切任务参数：txDate \n" +
+					"非日期任务参数：flowLastTime ; flowCurrTime;");
 			
 			// 修改placeHolder
-			$("#editModal .form input[name='jobName']").attr("placeholder","脚本(script)执行的完整命令,(请确保脚本已经同步指定APP客户端服务器)");
+			// 修改页面元素
+			$("#editModal  label[name='jobClassApplicationLabel']").html("Http/HTTPS路径<font color='red'>*</font>");
+			$("#editModal  label[name='jobNameLabel']").addClass("hide");
+			$("#editModal .form input[name='jobName']").addClass("hide");
+			
+			//修改placeHolder
+			$("#editModal .form input[name='jobName']").attr("placeholder","完整路径，eg：http://www.wjs.com/getUser");
+
 		}
 	});
 
@@ -397,8 +414,8 @@ $(function() {
 		}else if("JOB" == triggerType){
 
 			$("#editModal .form div[name='typeDailyDiv']").removeClass("hide");
-
-			$("#editModal .form div[name='triggerJobDiv']").removeClass("hide");
+			//$("#editModal .form div[name='triggerJobDiv']").removeClass("hide");
+			
 //			,triggerJobDiv
 			$("#editModal .form div[name='cronDiv']").addClass("hide");
 			// 非日切任务处理 -- 不需要配置offset

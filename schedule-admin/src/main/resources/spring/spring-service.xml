@@ -20,6 +20,10 @@
 	<context:component-scan base-package="com.wjs.schedule.component" />
 	
 	
+	<task:executor id="myExecutor" pool-size="6" />
+	<task:annotation-driven executor="myExecutor" />
+	
+	
 	<bean id="propertyConfigurer" class="com.wjs.util.config.SpringPlaceHolderConfigAdapter">
 		<property name="fileEncoding" value="utf-8" />
 		<property name="locations">
@@ -29,9 +33,17 @@
 		</property>
 	</bean>
 	
+	<bean class="com.wjs.util.dubbo.DubboServiceFactory">
+        <property name="applitionName" value="cuckoo_schedule"></property>
+        <property name="registerProtocol" value="${dubbo.registry.protocol}"></property>
+        <property name="registerAddress" value="${dubbo.registry.address}"></property>
+        <property name="registerGroup" value="${dubbo.registry.group}"></property>
+		<property name="timeOut" value="21600000"></property>
+    </bean>
+	
 
 	<bean id="quartzScheduler" lazy-init="false" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource-schedule" />
         <property name="autoStartup" value="true" />	<!--自动启动 -->
         <property name="startupDelay" value="20" />		<!--延时启动 -->
 		<property name="applicationContextSchedulerContextKey"  value="applicationContextKey" /> 

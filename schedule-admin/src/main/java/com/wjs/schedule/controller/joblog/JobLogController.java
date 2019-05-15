@@ -272,15 +272,15 @@ public class JobLogController extends BaseController {
 		
 		Map<String, Object> rtn = new HashMap<>();
 		// 查询
-		CuckooJobExecLog preJobLog = cuckooJobLogService.getPreJobLogs(cuckooJobExecLog);
+//		CuckooJobExecLog preJobLog = cuckooJobLogService.getPreJobLogs(cuckooJobExecLog);
 		List<CuckooJobExecLog> dependencyJobLogs = cuckooJobLogService.getDependencyJobs(cuckooJobExecLog);
 		// 依赖任务中过滤掉上级触发任务
-		if(CollectionUtils.isNotEmpty(dependencyJobLogs) && null != preJobLog ){
+		if(CollectionUtils.isNotEmpty(dependencyJobLogs)){
 			for (Iterator<CuckooJobExecLog> it = dependencyJobLogs.iterator(); it.hasNext() ;) {
 				CuckooJobExecLog depLog = it.next();
-				if(preJobLog.getId().equals(depLog.getId())){
-					it.remove();
-				}
+//				if(preJobLog.getId().equals(depLog.getId())){
+//					it.remove();
+//				}
 			}
 		}
 		
@@ -289,7 +289,7 @@ public class JobLogController extends BaseController {
 		rtn.put("curJob", convertLogVo(curJob));
 		rtn.put("depJobs", convertLogVos(dependencyJobLogs));
 		rtn.put("nextJobs", convertLogVos(nextJobLogs));
-		rtn.put("preJob", convertLogVo(preJobLog));
+//		rtn.put("preJob", convertLogVo(preJobLog));
 		
 		return success(rtn);
 	}

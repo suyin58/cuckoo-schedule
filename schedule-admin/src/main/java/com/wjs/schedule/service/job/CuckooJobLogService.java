@@ -119,7 +119,7 @@ public interface CuckooJobLogService {
 	 * @param cuckooJobExecLog
 	 * @return
 	 */
-	public CuckooJobExecLog getPreJobLogs(CuckooJobExecLog cuckooJobExecLog);
+//	public CuckooJobExecLog getPreJobLogs(CuckooJobExecLog cuckooJobExecLog);
 
 	/**
 	 * 获得依赖任务执行日志

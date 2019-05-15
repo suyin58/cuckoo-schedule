@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://code.alibabatech.com/schema/dubbo
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+ 
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="com.wjs.cuckoo.example" owner="com.wjs.cuckoo.example" 
+    organization="cuckoo"/>
+	<!-- 监控中心配置 从注册中心发现监控中心地址 -->
+	<dubbo:monitor protocol="registry"/>
+	
+    <dubbo:annotation package="com.wjs.schedule"/>
+ 
+    <!-- 使用zookeeper广播注册中心暴露服务地址 -->
+	<dubbo:registry id="memberRegistry" protocol="zookeeper"  group="cuckoo"
+		register="true" address="127.0.0.1:2181" />		
+ 	
+	<!-- 用dubbo协议在端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="10019" />    
+	
+    
+    <!-- 声明需要暴露的服务接口 -->
+    
+	
+	<dubbo:service interface="com.wjs.schedule.service.CuckooTestService" ref="cuckooTestService" registry="memberRegistry" retries="0" timeout="43200000" />	
+
+	<!-- 定义新接口配置在本文档中的合适位置，以此往下不允许有任何接口定义代码 -->
+	
+	
+
+</beans>

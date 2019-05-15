@@ -19,6 +19,8 @@ import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wjs.schedule.constant.CuckooJobConstant;
 import com.wjs.schedule.domain.exec.CuckooJobExecLog;
@@ -99,7 +101,10 @@ public class QuartzManage {
 //				——然后按照Cron频率依次执行
 		if(CuckooBooleanFlag.YES.getValue().equals(typeDaily.getValue())){
 			// 日切任务遗漏任务自动触发
-			cronScheduleBuilder.withMisfireHandlingInstructionIgnoreMisfires();
+//			cronScheduleBuilder.withMisfireHandlingInstructionIgnoreMisfires();
+			
+			// 忽略遗漏任务
+			cronScheduleBuilder.withMisfireHandlingInstructionDoNothing();
 		}else{
 			// 非日切任务忽略遗漏任务
 			cronScheduleBuilder.withMisfireHandlingInstructionDoNothing();
@@ -225,7 +230,6 @@ public class QuartzManage {
 		}
 	}
 	
-
 
 
 	public void addSimpleJob(CuckooJobExecLog jobLog,Long waitTime) {
