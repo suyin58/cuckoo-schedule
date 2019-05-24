@@ -2,7 +2,6 @@ package com.wjs.schedule.controller.jobinfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -157,7 +156,7 @@ public class JobInfoController extends BaseController{
 				
 				if(CuckooJobTriggerType.CRON.getValue().equals(jobDetail.getTriggerType())){
 					// 查看Cron是否有这个任务
-					vo.setQuartzInit(cuckooJobService.checkCronQuartzInit(jobDetail));
+					vo.setQuartzInit(cuckooJobService.checkCronQuartzInit(jobDetail) == true? CuckooBooleanFlag.YES.getValue():CuckooBooleanFlag.NO.getValue());
 				}
 				
 				// 查询其他扩展信息

@@ -17,6 +17,7 @@
     <result column="offset" property="offset" jdbcType="INTEGER" />
     <result column="job_status" property="jobStatus" jdbcType="VARCHAR" />
     <result column="cuckoo_parallel_job_args" property="cuckooParallelJobArgs" jdbcType="VARCHAR" />
+    <result column="quartzInit" property="quartzinit" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -87,7 +88,7 @@
      WARNING -  该映射文件为自动生成, 请勿修改.
     -->
     id, group_id, exec_job_type, job_class_application, job_name, job_desc, trigger_type, 
-    type_daily, cron_expression, offset, job_status, cuckoo_parallel_job_args
+    type_daily, cron_expression, offset, job_status, cuckoo_parallel_job_args, quartzInit
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wjs.schedule.domain.exec.CuckooJobDetailCriteria" >
     <!--
@@ -188,13 +189,13 @@
     insert into cuckoo_job_detail (id, group_id, exec_job_type, 
       job_class_application, job_name, job_desc, 
       trigger_type, type_daily, cron_expression, 
-      offset, job_status, cuckoo_parallel_job_args
-      )
+      offset, job_status, cuckoo_parallel_job_args, 
+      quartzInit)
     values (#{id,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, #{execJobType,jdbcType=VARCHAR}, 
       #{jobClassApplication,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{jobDesc,jdbcType=VARCHAR}, 
       #{triggerType,jdbcType=VARCHAR}, #{typeDaily,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR}, 
-      #{offset,jdbcType=INTEGER}, #{jobStatus,jdbcType=VARCHAR}, #{cuckooParallelJobArgs,jdbcType=VARCHAR}
-      )
+      #{offset,jdbcType=INTEGER}, #{jobStatus,jdbcType=VARCHAR}, #{cuckooParallelJobArgs,jdbcType=VARCHAR}, 
+      #{quartzinit,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wjs.schedule.domain.exec.CuckooJobDetail" >
     <!--
@@ -238,6 +239,9 @@
       <if test="cuckooParallelJobArgs != null" >
         cuckoo_parallel_job_args,
       </if>
+      <if test="quartzinit != null" >
+        quartzInit,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -275,6 +279,9 @@
       </if>
       <if test="cuckooParallelJobArgs != null" >
         #{cuckooParallelJobArgs,jdbcType=VARCHAR},
+      </if>
+      <if test="quartzinit != null" >
+        #{quartzinit,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -329,6 +336,9 @@
       <if test="record.cuckooParallelJobArgs != null" >
         cuckoo_parallel_job_args = #{record.cuckooParallelJobArgs,jdbcType=VARCHAR},
       </if>
+      <if test="record.quartzinit != null" >
+        quartzInit = #{record.quartzinit,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -350,7 +360,8 @@
       cron_expression = #{record.cronExpression,jdbcType=VARCHAR},
       offset = #{record.offset,jdbcType=INTEGER},
       job_status = #{record.jobStatus,jdbcType=VARCHAR},
-      cuckoo_parallel_job_args = #{record.cuckooParallelJobArgs,jdbcType=VARCHAR}
+      cuckoo_parallel_job_args = #{record.cuckooParallelJobArgs,jdbcType=VARCHAR},
+      quartzInit = #{record.quartzinit,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -394,6 +405,9 @@
       <if test="cuckooParallelJobArgs != null" >
         cuckoo_parallel_job_args = #{cuckooParallelJobArgs,jdbcType=VARCHAR},
       </if>
+      <if test="quartzinit != null" >
+        quartzInit = #{quartzinit,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -412,7 +426,8 @@
       cron_expression = #{cronExpression,jdbcType=VARCHAR},
       offset = #{offset,jdbcType=INTEGER},
       job_status = #{jobStatus,jdbcType=VARCHAR},
-      cuckoo_parallel_job_args = #{cuckooParallelJobArgs,jdbcType=VARCHAR}
+      cuckoo_parallel_job_args = #{cuckooParallelJobArgs,jdbcType=VARCHAR},
+      quartzInit = #{quartzinit,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -90,7 +90,7 @@ $(function() {
 	                { "data": 'groupId', "bSortable": false, "visible" : true},
 	                { "data": 'jobId', "bSortable": false, "visible" : true},
 	                { "data": 'jobClassApplication', "visible" : true},	                 
-	                { "data": 'jobName', "visible" : true},
+	                { "data": 'jobDesc', "visible" : true},
 	                { "data": 'triggerType', "visible" : true},
 	                { "data": 'cronExpression', "visible" : false},
 	                { "data": 'execJobStatus', "visible" : true},

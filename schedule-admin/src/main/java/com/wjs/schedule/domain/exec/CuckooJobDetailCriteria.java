@@ -1017,6 +1017,76 @@ public class CuckooJobDetailCriteria {
             addCriterion("cuckoo_parallel_job_args not between", value1, value2, "cuckooParallelJobArgs");
             return (Criteria) this;
         }
+
+        public Criteria andQuartzinitIsNull() {
+            addCriterion("quartzInit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitIsNotNull() {
+            addCriterion("quartzInit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitEqualTo(String value) {
+            addCriterion("quartzInit =", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitNotEqualTo(String value) {
+            addCriterion("quartzInit <>", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitGreaterThan(String value) {
+            addCriterion("quartzInit >", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitGreaterThanOrEqualTo(String value) {
+            addCriterion("quartzInit >=", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitLessThan(String value) {
+            addCriterion("quartzInit <", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitLessThanOrEqualTo(String value) {
+            addCriterion("quartzInit <=", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitLike(String value) {
+            addCriterion("quartzInit like", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitNotLike(String value) {
+            addCriterion("quartzInit not like", value, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitIn(List<String> values) {
+            addCriterion("quartzInit in", values, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitNotIn(List<String> values) {
+            addCriterion("quartzInit not in", values, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitBetween(String value1, String value2) {
+            addCriterion("quartzInit between", value1, value2, "quartzinit");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuartzinitNotBetween(String value1, String value2) {
+            addCriterion("quartzInit not between", value1, value2, "quartzinit");
+            return (Criteria) this;
+        }
     }
 
     /**

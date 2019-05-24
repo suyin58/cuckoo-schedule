@@ -63,6 +63,7 @@ CREATE TABLE cuckoo_job_detail
 	offset                         int             DEFAULT 0          NOT NULL	COMMENT '偏移量',
 	job_status                     varchar(10)     DEFAULT ''         NOT NULL	COMMENT '任务状态',
 	cuckoo_parallel_job_args       varchar(256)    DEFAULT ''         NOT NULL	COMMENT '并发/集群任务参数',
+	quartzInit varchar(5)    DEFAULT 'NO'         NOT NULL	COMMENT 'QUARTZ是否初始化',
 PRIMARY KEY(id)
 )
 ENGINE=InnoDB

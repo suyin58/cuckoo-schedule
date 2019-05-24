@@ -18,6 +18,7 @@ public class CuckooTestServiceImpl implements CuckooTestService {
 	@Override
 	@CuckooTask
 	public Object testJobSucced(JobInfoBean jobInfo) {
+		
 		try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e) {

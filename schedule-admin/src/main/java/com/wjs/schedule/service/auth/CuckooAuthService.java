@@ -108,4 +108,6 @@ public interface CuckooAuthService {
 	public PageDataList<CuckooAuthUser> pageAuthUser(AuthUserQry qry);
 
 
+	
+	public void checkGroupWritableThrowEx(CuckooLogonInfo cuckooLogonInfo , Long grpId);
 }

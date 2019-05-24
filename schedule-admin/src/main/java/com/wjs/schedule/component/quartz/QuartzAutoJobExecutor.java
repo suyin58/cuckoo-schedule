@@ -34,7 +34,9 @@ import com.wjs.schedule.enums.CuckooJobTriggerType;
 import com.wjs.schedule.qry.QryBase;
 import com.wjs.schedule.qry.job.JobLogQry;
 import com.wjs.schedule.service.job.CuckooJobLogService;
+import com.wjs.schedule.service.job.CuckooJobService;
 import com.wjs.schedule.service.net.CuckooNetService;
+import com.wjs.schedule.vo.job.CuckooJobDetailVo;
 import com.wjs.schedule.vo.job.CuckooJobExecLogVo;
 import com.wjs.util.DateUtil;
 import com.wjs.util.bean.PropertyUtil;
@@ -63,7 +65,7 @@ public class QuartzAutoJobExecutor extends QuartzJobBean {
 	MailSendSpring mailSendSpring;
 	
 	@Autowired
-	CuckooNetService cuckooNetService;
+	CuckooJobService cuckooJobService;
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
@@ -212,6 +214,15 @@ public class QuartzAutoJobExecutor extends QuartzJobBean {
 				if(CuckooJobStatus.PAUSE.getValue().equals(jobDetail.getJobStatus())){
 					// 暂停状态
 					quartzManage.pauseCronJob(String.valueOf(jobDetail.getId()));
+				}
+				jobDetail.setQuartzinit(CuckooBooleanFlag.YES.getValue());
+				cuckooJobDetailMapper.updateByPrimaryKeySelective(jobDetail);
+			}else{
+				// CRON任务在Cuckoo中有，quartz中也有的情况。判断quartzInit的状态，如果是NO，表示有更新，需要重新初始化
+				if(CuckooBooleanFlag.NO.getValue().equals(jobDetail.getQuartzinit())){
+					CuckooJobDetailVo vo = new CuckooJobDetailVo();
+					PropertyUtil.copyProperties(vo, jobDetail);
+					cuckooJobService.modifyJob(vo);
 				}
 			}
 		}

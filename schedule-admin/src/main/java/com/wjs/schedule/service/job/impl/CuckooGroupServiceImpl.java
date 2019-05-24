@@ -61,7 +61,7 @@ public class CuckooGroupServiceImpl implements CuckooGroupService {
 		CuckooLogonInfo loginInfo = cuckooAuthService.getLogonInfo();
 		CuckooJobGroupCriteria crt = new CuckooJobGroupCriteria();
 
-		if (CollectionUtils.isNotEmpty(loginInfo.getReadableGroupIds())) {
+		if (loginInfo != null && CollectionUtils.isNotEmpty(loginInfo.getReadableGroupIds())) {
 			crt.createCriteria().andIdIn(loginInfo.getReadableGroupIds());
 		}
 
@@ -77,9 +77,7 @@ public class CuckooGroupServiceImpl implements CuckooGroupService {
 	@Override
 	public void deleteById(Long id) {
 
-		if (!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(id)) {
-			throw new BaseException("not writable right in this group");
-		}
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,id);
 
 		cuckooJobGroupMapper.deleteByPrimaryKey(id);
 		CuckooJobDetailCriteria crt = new CuckooJobDetailCriteria();
@@ -93,9 +91,8 @@ public class CuckooGroupServiceImpl implements CuckooGroupService {
 	@Override
 	public void updateByPk(CuckooJobGroup cuckooJobGroup) {
 
-		if (!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(cuckooJobGroup.getId())) {
-			throw new BaseException("not writable right in this group {}", cuckooJobGroup.getGroupName());
-		}
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,cuckooJobGroup.getId());
+		
 		cuckooAuthService.refreshAuth(cuckooAuthService.getLogonInfo());
 		cuckooJobGroupMapper.updateByPrimaryKeySelective(cuckooJobGroup);
 	}

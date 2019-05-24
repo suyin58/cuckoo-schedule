@@ -130,8 +130,9 @@ public class CuckooJobExecutor {
 //			cuckooJobExecLogsMapper.lockByPrimaryKey(jobLog.getId());
 			
 			CuckooClientJobExecResult remoteExecutor = cuckooServerService.execRemoteJob(jobBean);
-
+			
 			remark = remoteExecutor.getRemark();
+			
 			LOGGER.info("job start running,remark:{},logInfo:{}", remark, jobLog);
 			// 插入执行日志
 			jobBean.setMessage(remark.length() > 490 ? remark.substring(0, 490) : remark);

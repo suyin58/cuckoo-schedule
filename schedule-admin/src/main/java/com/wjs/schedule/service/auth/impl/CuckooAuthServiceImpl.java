@@ -48,7 +48,7 @@ public class CuckooAuthServiceImpl implements CuckooAuthService {
 	
 	@Override
 	public CuckooLogonInfo getLogonInfo() {
-		return logonInfo.get() == null ? new CuckooLogonInfo() : logonInfo.get();
+		return logonInfo.get();
 	}
 	
 	@Override
@@ -279,6 +279,16 @@ public class CuckooAuthServiceImpl implements CuckooAuthService {
 		crt.setLimit(qry.getLimit());
 		
 		return cuckooAuthUserMapper.pageByExample(crt);
+	}
+
+	@Override
+	public void checkGroupWritableThrowEx(CuckooLogonInfo cuckooLogonInfo , Long grpId) {
+
+		
+		if(cuckooLogonInfo != null && !cuckooLogonInfo.getWritableGroupIds().contains(grpId)){
+			throw new BaseException("no writable right");
+		}
+		
 	}
 
 	

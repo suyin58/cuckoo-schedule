@@ -279,7 +279,7 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 		if(null != qry.getGroupId()){
 			crt.andGroupIdEqualTo(qry.getGroupId());
 		}else{
-			if(CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
+			if(cuckooAuthService.getLogonInfo() != null && CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
 				crt.andGroupIdIn(cuckooAuthService.getLogonInfo().getReadableGroupIds());
 			}
 		}
@@ -309,9 +309,9 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 		cuckooJobExecLog.setExecJobStatus(status.getValue());
 
 		CuckooJobExecLog jobLog = cuckooJobExecLogMapper.selectByPrimaryKey(logId);
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(jobLog.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,jobLog.getGroupId());
+		
 		
 
 		cuckooJobExecLogMapper.updateByPrimaryKeySelective(cuckooJobExecLog);
@@ -331,7 +331,7 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 		page.setPage(qry.getStart() / qry.getLimit()  + 1);
 		page.setPageSize(qry.getLimit());
 
-		if(CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
+		if(cuckooAuthService.getLogonInfo() != null && CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
 			qry.setGroupIds(cuckooAuthService.getLogonInfo().getReadableGroupIds());
 		}
 		
@@ -461,7 +461,7 @@ public class CuckooJobLogServiceImpl implements CuckooJobLogService {
 		page.setPage(qry.getStart() / qry.getLimit()  + 1);
 		page.setPageSize(qry.getLimit());
 		
-		if(CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
+		if(cuckooAuthService.getLogonInfo() != null && CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
 			qry.setGroupIds(cuckooAuthService.getLogonInfo().getReadableGroupIds());
 		}
 		

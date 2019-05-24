@@ -66,7 +66,8 @@ public class CuckooNetServiceImpl implements CuckooNetService {
 		LOGGER.info("接口调用请求-->{}" ,jobBean);
 
 		CuckooClientJobExecResult result = new CuckooClientJobExecResult();
-		result.setRemark("");
+		result.setSuccess(false);
+		result.setRemark("执行中...");
 		if(CuckooJobExecType.DUBBO.getValue().equals(jobBean.getExecType().getValue())){
 			// Dubbo类型任务
 			List<DubboParameter> parameters = new ArrayList<DubboParameter>();
@@ -85,6 +86,7 @@ public class CuckooNetServiceImpl implements CuckooNetService {
 			if(res != null){
 				String resObj = JSON.toJSONString(res);
 				// 对象转化成list
+				result.setSuccess(true);
 				result.setRemark(resObj);
 			}
 		}else if(CuckooJobExecType.HTTP.getValue().equals(jobBean.getExecType().getValue())){
@@ -108,10 +110,11 @@ public class CuckooNetServiceImpl implements CuckooNetService {
 				try {
 					
 					result.setRemark(HttpClientUtils.post(url, params,"UTF-8","UTF-8",1000,1000));
+					result.setSuccess(true);
 				}catch (Exception e) {
 					if(e instanceof java.lang.RuntimeException && e.getCause() instanceof java.net.SocketTimeoutException){
 						// CuckooTask 异步通知，此处超时当做正常逻辑处理
-		        		return null;
+		        		return result;
 					}
 					result.setRemark("error:" + e.getMessage());
 					LOGGER.error("job exec error:{}", e.getMessage(), e);
@@ -121,6 +124,7 @@ public class CuckooNetServiceImpl implements CuckooNetService {
 				
 				try {
 					result.setRemark(HttpClientUtils.postSSL(url, params,"UTF-8","UTF-8",100000,100000));
+					result.setSuccess(true);
 				} catch (IOException e) {
 					result.setRemark("error:" + e.getMessage());
 					LOGGER.error("job exec error:{}", e.getMessage(), e);

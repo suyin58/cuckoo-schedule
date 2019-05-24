@@ -22,7 +22,7 @@
 	                { "data": 'id', "bSortable": false, "visible" : true},
 	                { "data": 'groupId', "bSortable": false, "visible" : true},
 	                { "data": 'jobId', "bSortable": false, "visible" : true},	                 
-	                { "data": 'jobName', "visible" : true},
+	                { "data": 'jobDesc', "visible" : true},
 	                { "data": 'jobClassApplication', "visible" : false},
 	                { "data": 'triggerType', "visible" : false},
 	                { "data": 'cronExpression', "visible" : false},
@@ -61,7 +61,7 @@
 	                	"render": function ( data, type, row ) {
 	                		// better support expression or string, not function
 	                		return function () {
-	                			var temp = '<a class="btn btn-primary btn-xs detail" href="/joblog/logdetail?logId='+ row.id +'" target="_blank"   ">详情</a> &nbsp; &nbsp;';
+	                			var temp = '<a class="btn btn-primary btn-xs detail" href="'+base_url +'/joblog/logdetail?logId='+ row.id +'" target="_blank"   ">详情</a> &nbsp; &nbsp;';
 		                		return temp;	
 	                		}
 	                	}
@@ -124,7 +124,7 @@
 	                { "data": 'id', "bSortable": false, "visible" : true},
 	                { "data": 'groupId', "bSortable": false, "visible" : true},
 	                { "data": 'jobId', "bSortable": false, "visible" : true},	                 
-	                { "data": 'jobName', "visible" : true},
+	                { "data": 'jobDesc', "visible" : true},
 	                { "data": 'jobClassApplication', "visible" : false},
 	                { "data": 'triggerType', "visible" : false},
 	                { "data": 'cronExpression', "visible" : false},
@@ -163,7 +163,7 @@
 	                	"render": function ( data, type, row ) {
 	                		// better support expression or string, not function
 	                		return function () {
-	                			var temp = '<a class="btn btn-primary btn-xs detail" href="/joblog/logdetail?logId='+ row.id +'" target="_blank"   ">详情</a> &nbsp; &nbsp;';
+	                			var temp = '<a class="btn btn-primary btn-xs detail" href="'+base_url +'/joblog/logdetail?logId='+ row.id +'" target="_blank"   ">详情</a> &nbsp; &nbsp;';
 		                		return temp;	
 	                		}
 	                	}
@@ -228,7 +228,7 @@
 	                { "data": 'id', "bSortable": false, "visible" : true},
 	                { "data": 'groupId', "bSortable": false, "visible" : true},
 	                { "data": 'jobId', "bSortable": false, "visible" : true},	                 
-	                { "data": 'jobName', "visible" : true},
+	                { "data": 'jobDesc', "visible" : true},
 	                { "data": 'jobClassApplication', "visible" : false},
 	                { "data": 'triggerType', "visible" : false},
 	                { "data": 'cronExpression', "visible" : false},
@@ -267,7 +267,7 @@
 	                	"render": function ( data, type, row ) {
 	                		// better support expression or string, not function
 	                		return function () {
-	                			var temp = '<a class="btn btn-primary btn-xs detail" href="/joblog/logdetail?logId='+ row.id +'" target="_blank"   ">详情</a> &nbsp; &nbsp;';
+	                			var temp = '<a class="btn btn-primary btn-xs detail" href="'+base_url +'/joblog/logdetail?logId='+ row.id +'" target="_blank"   ">详情</a> &nbsp; &nbsp;';
 		                		return temp;	
 	                		}
 	                	}

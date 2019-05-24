@@ -115,10 +115,10 @@ public class JobLogController extends BaseController {
 		PageDataList<CuckooJobExecLog> pageLog = cuckooJobLogService.pageByQry(qry);
 		
 		PageDataList<CuckooJobExecLogVo> pageLogVo = new PageDataList<>();
+		
 		pageLogVo.setPage(pageLog.getPage());
 		pageLogVo.setPageSize(pageLog.getPageSize());
 		pageLogVo.setTotal(pageLog.getTotal());
-		
 		
 		pageLogVo.setRows(converPageRows(pageLog.getRows()));
 		
@@ -168,6 +168,8 @@ public class JobLogController extends BaseController {
 			for (CuckooJobExecLog cuckooJobExecLog : rows) {
 				CuckooJobExecLogVo vo = new CuckooJobExecLogVo();
 				PropertyUtil.copyProperties(vo, cuckooJobExecLog);
+				CuckooJobDetail jobDetail = cuckooJobService.getJobById(cuckooJobExecLog.getJobId());
+				vo.setJobDesc(jobDetail == null ? "" : jobDetail.getJobDesc());
 				list.add(vo);
 			}
 		}
@@ -207,9 +209,8 @@ public class JobLogController extends BaseController {
 			 throw new BaseException("can not get jobLog by logid:{}", logId);
 		}
 
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(cuckooJobExecLog.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,cuckooJobExecLog.getGroupId());
 		
 		cuckooJobExecLog.setJobStartTime(System.currentTimeMillis());
 		cuckooJobExecLog.setForceTriggle(true);

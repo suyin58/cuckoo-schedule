@@ -77,6 +77,12 @@ public class CuckooJobDetail implements Serializable {
     private String cuckooParallelJobArgs;
 
     /**
+     * QUARTZ是否初始化 -- cuckoo_job_detail.quartzInit
+     * 
+     */
+    private String quartzinit;
+
+    /**
      * cuckoo_job_detail表的操作属性:serialVersionUID
      * 
      */
@@ -272,6 +278,22 @@ public class CuckooJobDetail implements Serializable {
      */
     public void setCuckooParallelJobArgs(String cuckooParallelJobArgs) {
         this.cuckooParallelJobArgs = cuckooParallelJobArgs == null ? null : cuckooParallelJobArgs.trim();
+    }
+
+    /**
+     * 数据字段 cuckoo_job_detail.quartzInit的get方法 
+     * 
+     */
+    public String getQuartzinit() {
+        return quartzinit;
+    }
+
+    /**
+     * 数据字段 cuckoo_job_detail.quartzInit的set方法
+     * 
+     */
+    public void setQuartzinit(String quartzinit) {
+        this.quartzinit = quartzinit == null ? null : quartzinit.trim();
     }
 
     public String toString() {

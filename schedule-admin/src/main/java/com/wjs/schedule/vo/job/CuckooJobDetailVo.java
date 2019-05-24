@@ -106,7 +106,7 @@ public class CuckooJobDetailVo {
 	/**
 	 * 是否初始化quartz(CRON类型任务，数据库直接初始化)
 	 */
-	private boolean quartzInit;
+	private String quartzInit;
 	
 	
 	/**
@@ -338,14 +338,16 @@ public class CuckooJobDetailVo {
 	}
 
 	
-	public boolean isQuartzInit() {
+	public String getQuartzInit() {
+	
 		return quartzInit;
 	}
 
-	public void setQuartzInit(boolean quartzInit) {
+	
+	public void setQuartzInit(String quartzInit) {
+	
 		this.quartzInit = quartzInit;
 	}
-	
 
 	public Long getOverTime() {
 		return overTime;

@@ -1,10 +1,12 @@
 package com.wjs.schedule.dao.exec;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.wjs.schedule.domain.exec.CuckooJobDetail;
 import com.wjs.schedule.domain.exec.CuckooJobDetailCriteria;
 import com.wjs.util.dao.PageDataList;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface CuckooJobDetailMapper {
     /**

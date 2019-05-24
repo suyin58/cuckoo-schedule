@@ -35,6 +35,7 @@ import com.wjs.schedule.service.auth.CuckooAuthService;
 import com.wjs.schedule.service.job.CuckooJobDependencyService;
 import com.wjs.schedule.service.job.CuckooJobLogService;
 import com.wjs.schedule.service.job.CuckooJobService;
+import com.wjs.schedule.vo.auth.CuckooLogonInfo;
 import com.wjs.schedule.vo.job.CuckooJobDetailVo;
 import com.wjs.util.bean.PropertyUtil;
 import com.wjs.util.config.ConfigUtil;
@@ -88,9 +89,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			throw new BaseException("can not find jobgroup by groupId:" + jobDetail.getGroupId());
 		}
 
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(cuckooJobGroup.getId())){
-			throw new BaseException("no writable right");
-		}
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,cuckooJobGroup.getId());
 
 		// 检查唯一性索引 groupid,jobName
 //		CuckooJobDetailCriteria jobUkCrt = new CuckooJobDetailCriteria();
@@ -194,10 +193,8 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			throw new BaseException("can not find jobinfo by id : " + jobInfo.getId());
 		}
 		
-
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(orginJobDetail.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,orginJobDetail.getGroupId());
+		
 		
 		CuckooJobDetail targetJobDetail = new CuckooJobDetail();
 
@@ -207,6 +204,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		// 提交修改内容覆盖
 		PropertyUtil.copyProperties(targetJobDetail, jobInfo);
 
+		targetJobDetail.setQuartzinit(CuckooBooleanFlag.YES.getValue());
 		cuckooJobDetailMapper.updateByPrimaryKeySelective(targetJobDetail);
 		if (CuckooJobTriggerType.JOB.getValue().equals(orginJobDetail.getTriggerType())) {
 			// 原来任务类型为job触发 且新任务为Cron，那么需要新增quartz。否则不做处理
@@ -258,9 +256,9 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		}
 		// 根据ID查询任务信息
 		CuckooJobDetail cuckooJobDetail = cuckooJobDetailMapper.selectByPrimaryKey(id);
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(cuckooJobDetail.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,cuckooJobDetail.getGroupId());
+		
 		// 根据id删除cuckoo数据
 		if (null != cuckooJobDetail) {
 			cuckooJobDetailMapper.deleteByPrimaryKey(id);
@@ -284,9 +282,8 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		// 根据ID查询任务信息
 		CuckooJobDetail orginJobDetail = cuckooJobDetailMapper.selectByPrimaryKey(id);
 		orginJobDetail.setJobStatus(CuckooJobStatus.PAUSE.getValue());
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(orginJobDetail.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,orginJobDetail.getGroupId());
 		// 更新cuckoo状态
 		cuckooJobDetailMapper.updateByPrimaryKeySelective(orginJobDetail);
 
@@ -307,9 +304,10 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		if (null != jobInfo.getGroupId()) {
 			exp.andGroupIdEqualTo(jobInfo.getGroupId());
 		}else{
-			if(CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getWritableGroupIds())){
+			if(cuckooAuthService.getLogonInfo() != null && CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getWritableGroupIds())){
 				exp.andGroupIdIn(cuckooAuthService.getLogonInfo().getWritableGroupIds());
 			}
+			
 		}
 		if (null != jobInfo.getJobId()) {
 			exp.andIdEqualTo(jobInfo.getJobId());
@@ -347,9 +345,9 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 		// 根据ID查询任务信息
 		CuckooJobDetail orginJobDetail = cuckooJobDetailMapper.selectByPrimaryKey(id);
 		orginJobDetail.setJobStatus(CuckooJobStatus.RUNNING.getValue());
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(orginJobDetail.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,orginJobDetail.getGroupId());
+		
 
 		// 更新cuckoo状态
 		cuckooJobDetailMapper.updateByPrimaryKeySelective(orginJobDetail);
@@ -425,7 +423,7 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			exp.andGroupIdEqualTo(jobInfo.getGroupId());
 		}else{
 			// 所有有权限的group
-			if(CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
+			if(cuckooAuthService.getLogonInfo() != null && CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
 				exp.andGroupIdIn(cuckooAuthService.getLogonInfo().getReadableGroupIds());
 			}
 			
@@ -515,9 +513,8 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			throw new BaseException("can not get jobinfo by id:{}", jobId);
 		}
 		
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(cuckooJobDetail.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,cuckooJobDetail.getGroupId());
+		
 
 		CuckooJobExecLog jobLog = cuckooJobLogService.initDailyJobLog(cuckooJobDetail, needTriggleNext, txDate,
 				foreTriggle);
@@ -532,9 +529,9 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			throw new BaseException("can not get jobinfo by id:{}", jobId);
 		}
 		
-		if(!cuckooAuthService.getLogonInfo().getWritableGroupIds().contains(cuckooJobDetail.getGroupId())){
-			throw new BaseException("no writable right");
-		}
+
+		cuckooAuthService.checkGroupWritableThrowEx(cuckooAuthService.getLogonInfo() ,cuckooJobDetail.getGroupId());
+		
 		CuckooJobExecLog jobLog = cuckooJobLogService.initJobLog(cuckooJobDetail, needTriggleNext, foreTriggle);
 		quartzManage.addSimpleJob(jobLog, 0L);
 		
@@ -548,7 +545,8 @@ public class CuckooJobServiceImpl implements CuckooJobService {
 			crt.createCriteria().andGroupIdEqualTo(groupId);
 		}else{
 			// 用户权限控制
-			if(CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
+			
+			if(cuckooAuthService.getLogonInfo() != null &&CollectionUtils.isNotEmpty(cuckooAuthService.getLogonInfo().getReadableGroupIds())){
 				crt.createCriteria().andGroupIdIn(cuckooAuthService.getLogonInfo().getReadableGroupIds());
 			}
 		}

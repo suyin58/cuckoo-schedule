@@ -64,7 +64,7 @@ $(function() {
 	                { "data": 'quartzInit', 
 	                	"visible" : true,
 	                	"render": function ( data, type, row ) {
-	                			return row.triggerType == "CRON"? data?"是":"否" : "";
+	                			return row.triggerType == "CRON"? (data=="YES"?"是":"否") : "";
 	                	}
 	                },
 	                	                
@@ -613,9 +613,23 @@ $(function() {
 		if("YES" == $(this).parent('p').attr("typeDaily")){
 			$("#triggerModal .form div[name='dailyParam']").removeClass("hide");
 			$("#triggerModal .form div[name='cronParam']").addClass("hide");
+			
+			var d = new Date();
+		    var curr_date = d.getDate();
+		    var curr_month = d.getMonth() + 1; 
+		    var curr_year = d.getFullYear();
+		    String(curr_month).length < 2 ? (curr_month = "0" + curr_month): curr_month;
+		    String(curr_date).length < 2 ? (curr_date = "0" + curr_date): curr_date;
+		    var yyyyMMdd = curr_year + "" + curr_month +""+ curr_date;
+			// 填充日切参数
+			$("#triggerModal .form input[name='txDate']").val(yyyyMMdd);
+			
 		}else if("NO" == $(this).parent('p').attr("typeDaily")){
 			$("#triggerModal .form div[name='dailyParam']").addClass("hide");
 			$("#triggerModal .form div[name='cronParam']").removeClass("hide");
+			
+			// 填充流式任务参数
+			
 		}else{
 			$("#triggerModal .form div[name='dailyParam']").addClass("hide");
 			$("#triggerModal .form div[name='cronParam']").addClass("hide");
